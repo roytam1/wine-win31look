@@ -2781,7 +2781,6 @@ static BOOL MENU_TrackMenu( HMENU hmenu, UINT wFlags, INT x, INT y,
                     if ( hmenu && ((TWEAK_WineLook > WIN31_LOOK) ||
                          ( (msg.wParam & MK_LBUTTON) ||
                            ((wFlags & TPM_RIGHTBUTTON) && (msg.wParam & MK_RBUTTON)))) )
-
 			fEndMenu |= !MENU_MouseMove( &mt, hmenu, wFlags );
 
 	    } /* switch(msg.message) - mouse */
