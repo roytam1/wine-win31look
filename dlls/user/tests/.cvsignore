@@ -1,0 +1,13 @@
+Makefile
+class.ok
+dialog.ok
+generated.ok
+input.ok
+listbox.ok
+msg.ok
+resource.ok
+resource.res
+sysparams.ok
+testlist.c
+win.ok
+wsprintf.ok

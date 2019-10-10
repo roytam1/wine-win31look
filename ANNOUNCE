@@ -1,0 +1,44 @@
+This is release 20040309 of Wine, a free implementation of Windows on
+Unix.  This is still a developers only release.  There are many bugs
+and unimplemented features.  Most applications still do not work
+correctly.
+
+WHAT'S NEW with Wine-20040309: (see ChangeLog for details)
+        - Much improved winegcc tool, now used to build Wine itself.
+        - VxDs are now separate libraries for better modularity.
+        - Improvements and simplifications to the drive configuration.
+        - New setupapi INF script to create the initial registry.
+        - Many improvements to the various multimedia dlls.
+        - Lots of bug fixes.
+
+See the README file in the distribution for installation instructions.
+
+Because of lags created by using mirror, this message may reach you before
+the release is available at the ftp sites.  The sources will be available
+from the following locations:
+
+  http://www.ibiblio.org/pub/Linux/ALPHA/wine/development/Wine-20040309.tar.gz
+  http://prdownloads.sourceforge.net/wine/Wine-20040309.tar.gz
+
+It should also be available from any other site that mirrors ibiblio.org.
+These locations also hold pre-built documentation packages in various
+formats: wine-doc-html.tar.gz, wine-doc-txt.tar.gz,
+wine-doc-pdf.tar.gz and wine-doc-ps.tar.gz.
+
+You can also get the current source directly from the CVS tree. Check
+http://www.winehq.org/cvs for details.
+
+Patches should be submitted to "wine-patches@winehq.org".  Please
+don't forget to include a ChangeLog entry. If you submitted a patch,
+please check to make sure it has been included in the new release.
+
+If you want to receive by mail a patch against the previous release
+when a new one is released, you can subscribe to the mailing list at
+http://www.winehq.org/mailman/listinfo/wine-releases .
+
+Wine is available thanks to the work of many people. See the file
+AUTHORS in the distribution for the complete list.
+
+--
+Alexandre Julliard
+julliard@winehq.org

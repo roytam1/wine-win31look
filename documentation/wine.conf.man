@@ -1,0 +1,355 @@
+.\" -*- nroff -*-
+.TH WINE.CONF 5 "September 2003" "Version 20030911" "Wine Configuration File"
+.SH NAME
+wine.conf \- Wine configuration file
+.SH DESCRIPTION
+.B wine
+expects a configuration file (
+.I $WINEPREFIX/config
+(~/.wine/config)
+), which should conform to the following rules.
+A sample configuration file is available as
+.I documentation/samples/config
+in the Wine source distribution.
+.SH CONFIGURATION FILE FORMAT
+All entries are grouped in sections; a section begins with the line
+.br
+.I [section name]
+.br
+and continues until the next section starts. Individual entries
+consist of lines of the form
+.br
+.I """entry""=""value"""
+.br
+The entry and value can be any text strings, included in double
+quotes; it can also contain references to environment variables
+surrounded by
+.I ${}.
+Inside the double quotes, special characters, backslashes and quotes
+must be escaped with backslashes. Supported section names and entries
+are listed below.
+.PP
+.B [Drive X]
+.br
+This section is used to specify the root directory and type of each emulated
+.B DOS
+drive, since most Windows applications require a DOS/MS-Windows based
+disk drive & directory scheme, which is either provided by a real
+DOS partition mounted somewhere or by some carefully crafted directory layout
+on a Unix file system ("no-windows fake installation").
+There is one such section for every drive you want to configure.
+.PP
+.I format: """Path""=""<rootdirectory>"""
+.br
+default: none
+.br
+If you mounted your dos partition as
+.I /dos
+and installed Microsoft Windows in
+C:\\WINDOWS (thus it shows up as /dos/WINDOWS), then you should specify
+.I """Path""=""/dos"""
+in the
+.I [Drive C]
+section in order to configure /dos as the drive root of drive C:.
+.PP
+.I format: """Type""=""<type>"""
+.br
+default: "hd"
+.br
+Used to specify the drive type this drive appears as in Windows
+or DOS programs; supported types are "floppy", "hd", "cdrom"
+and "network".
+.PP
+.I format: """FailReadOnly""=""<boolean>"""
+.br
+Read-only files may not be opened in write mode (the default is to
+allow opening read-only files for writing, because most Windows
+programs always request read-write access, even on CD-ROM drives...).
+.PP
+.B [wine]
+.br
+.I format: """windows""=""<directory>"""
+.br
+default: "C:\\\\WINDOWS"
+.br
+Used to specify where Wine is supposed to have its Windows directory
+(which is an essential part of a Windows environment); make sure to double
+the backslashes.
+In case of e.g. C:\\WINDOWS, with drive C: being configured as
+/home/user/wine_c, the /home/user/wine_c/WINDOWS directory would be used for
+this.
+.PP
+.I format: """system""=""<directory>"""
+.br
+default: "C:\\\\WINDOWS\\\\System"
+.br
+Used to specify where Wine is supposed to have its Windows system directory
+(again, essential part of Windows environment); make sure to double the backslashes.
+Given a setting of C:\\WINDOWS\\System (the standard setting on Windows)
+and a C: drive again at /home/user/wine_c, the /home/user/wine_c/WINDOWS/System
+directory would be used for this.
+.PP
+.I format: """temp""=""<directory>"""
+.br
+default: "C:\\\\TEMP"
+.br
+Used to specify a directory where Windows applications can store
+temporary files. E.g. with a C: drive at /home/user/wine_c, this would be
+the /home/user/wine_c/TEMP directory.
+.PP
+.I format: """profile""=""<directory>"""
+.br
+default: nothing
+.br
+Used to specify a directory where Windows stores special folders and
+the user-registry files (user.dat or ntuser.dat).  Mapped to
+environment variable %USERPROFILE%.  Set this value when running with
+a native NT or a native win95 directory with per-user settings.
+.PP
+.I format: """path""=""<directories separated by semi-colons>"""
+.br
+default: "C:\\\\WINDOWS;C:\\\\WINDOWS\\\\SYSTEM"
+.br
+Used to specify the path which will be used to find executables and
+dlls. Make sure to double the backslashes.
+.PP
+.I format: """GraphicsDriver""=""<x11drv|ttydrv>"""
+.br
+default: "x11drv"
+.br
+Tells Wine which graphics driver to use. Normally you'd want to use
+x11drv (for X11). In case you want to run programs as text console/TTY only
+without having Wine rely on X11 support, then use ttydrv.
+.PP
+.I format: """ShowDirSymlinks""=""<0|1>"""
+.br
+default: "0"
+.br
+Wine doesn't pass directory symlinks to Windows programs by default.
+Enabling this may crash some programs that do recursive lookups of a whole
+subdir tree in case of a symlink pointing back to itself.
+.PP
+.I format: """ShowDotFiles""=""<0|1>"""
+.br
+default: "0"
+.br
+Under Unix, files starting with a dot, are considered hidden,
+and should not be shown in directory listing (unless explicitly asked for),
+just like DOS-style hidden files. If you want them treated as regular
+files, set this value to 1.
+.PP
+.B [Version]
+.br
+.I format: """Windows""=""<version string>"""
+.br
+default: none; chosen by semi-intelligent detection mechanism based on DLL environment
+.br
+Used to specify which Windows version to return to programs (forced value,
+overrides standard detection mechanism !).
+Valid settings are e.g. "win31", "win95", "win98", "win2k", "winxp".
+Also valid as an AppDefaults setting (recommended/preferred use).
+.PP
+.I format: """DOS""=""<version string>"""
+.br
+default: "<Windows version specific>"
+.br
+Used to specify the DOS version that should be returned to programs.
+Only takes effect in case Wine acts as "win31" Windows version !
+Common DOS version settings include 6.22, 6.20, 6.00, 5.00, 4.00, 3.30, 3.10.
+Also valid as an AppDefaults setting (recommended/preferred use).
+.PP
+.B [DllOverrides]
+.br
+.I format: """modulename""=""native,builtin"""
+.br
+.I modulename
+can be any valid DLL module name. If no extension is specified .dll is
+assumed. The specified value is a comma separated list of module-types
+to try to load in that specific order. Case is not important and only
+the first letter of each type is enough to identify the type n[ative]
+or b[uiltin]. Also whitespace is ignored. See also the description of
+the
+.I WINEDLLOVERRIDES
+environment variable in
+.BR wine (1)
+for details about the allowed types.
+.br
+The wildcard entry
+.I """*"""
+specifies the load order to use for modules not explicitly
+mentioned. If the wildcard entry is not found, then the order
+"native,builtin" is used.
+.br
+Examples:
+.br
+.I """kernel32""=""builtin"""
+.br
+.I """comdlg32""=""native,builtin"""
+.br
+.I """*""=""builtin,native"""
+.br
+When the specified module name does not contain a path, it matches
+only dlls loaded from the Windows system directory. If the application
+explicitly loads a dll from a different directory, it has to be
+configured separately. This can be done either by specifying the full
+path in the module name, or by using a path wildcard of the form
+.I """*modulename""".
+.br
+For instance, the following will load the native shell32 when loaded
+from C:\\Program Files, and the builtin when loaded from any other
+directory:
+.br
+.I """C:\\\\\\\\Program Files\\\\\\\\shell32"" = ""native"""
+.br
+.I """*shell32"" = ""builtin"""
+.br
+Changing the load order of low-level dlls like kernel32, gdi32 or
+user32 to anything other than builtin will cause wine to fail because
+wine cannot use native versions for these libraries.
+.br
+Always make sure that you have some kind of strategy in mind when you start
+fiddling with the current defaults and needless to say that you must know
+what you are doing.
+--debugmsg +loaddll might come in handy for experimenting with that stuff.
+.PP
+.B [Debug]
+.br
+.I format: """SpyExclude""=""<message names separated by semicolons>"""
+.br
+default: none
+.br
+Used to specify which messages will be excluded from the logfile.
+.PP
+.I format: """SpyInclude""=""<message names separated by semicolons>"""
+.br
+default: none
+.br Used to specify which messages will be included in the logfile.
+.PP
+.I format: """RelayFromExclude""=""<module names separated by semicolons>"""
+.br
+default: none
+.br
+Used to specify a set of modules whose calls are excluded from a relay debug log.
+.PP
+.I format: """RelayFromInclude""=""<module names separated by semicolons>"""
+.br
+default: include all modules
+.br 
+Used to specify the set of modules whose calls are included in a relay debug log.
+.PP
+.I format: """RelayExclude""=""<functions or dll.functions separated by semicolons>"""
+.br
+default: none
+.br
+Used to specify which functions will be excluded from a relay debug log.
+.PP
+.I format: """RelayInclude""=""<functions or dll.functions separated by semicolons>"""
+.br
+default: include all functions
+.br 
+Used to specify which functions will be included in a relay debug log.
+.PP
+.I format: """SnoopExclude""=""<functions or dll.functions separated by semicolons>"""
+.br
+default: none
+.br 
+Used to specify which functions will be excluded from the snoop debug log.
+.PP
+.I format: """SnoopInclude""=""<functions or dll.functions separated by semicolons>"""
+.br
+default: include all functions
+.br 
+Used to specify which functions will be included in the snoop debug log.
+.PP
+For Relay and Snoop <dllname>.* includes or excludes the whole dll. Exclude
+entries have priority over Include entries.
+.PP
+.B [Tweak.Layout]
+.br
+.I format: """WineLook""=""<Win31|Win95|Win98>"""
+.br
+default: "Win31"
+.br
+Use Win95-like window displays or Win3.1-like window displays.
+.PP
+.B [Registry]
+.br
+.I format: """LoadGlobalRegistryFiles""=""<boolean>"""
+.br
+Global registries (stored in /etc)
+.PP
+.I format: """LoadHomeRegistryFiles""=""<boolean>"""
+.br
+Home registries (stored in ~user/.wine/)
+.PP
+.I format: """WritetoHomeRegistryFiles""=""<boolean>"""
+.br
+TRY to write all changes to the home registry files
+.PP
+.I format: """LoadWindowsRegistryFiles""=""<boolean>"""
+.br
+Load Windows registry from the current Windows directory.
+.PP
+booleans: Y/y/T/t/1 are true, N/n/F/f/0 are false.
+.br
+Defaults are read all, write to home files.
+.PP
+.B [Network]
+.br
+.I format: """UseDnsComputerName""=""<boolean>"""
+.br
+If Y, always override the registry setting for ComputerName
+with the Unix hostname.
+.PP
+.B [AppDefaults\\\\\\\\<appname>\\\\\\\\...]
+.PP
+This section allows specifying application-specific values for
+the other sections described above.
+.I <appname>
+is the name of the application exe file, without path. The "..."
+should be replaced by the name of one of the above configuration
+sections.
+.br
+Example:
+.br
+.I [AppDefaults\\\\\\\\sol.exe\\\\\\\\DllOverrides]
+.br
+.I """shell32""" = """native"""
+.br
+means that Solitaire will use "native" load order for the shell32
+dll. All other applications will continue to use what was specified in
+the general
+.I DllOverrides
+section.
+.br
+The only sections that support application-specific information at the
+moment are
+.I DllOverrides, dsound, Version
+and
+.I x11drv.
+.br
+Make sure to use double backslashes in the section name.
+.PP
+.SH SAMPLE CONFIGURATION FILE
+A sample configuration file is distributed as
+.B documentation/samples/config
+in the Wine source distribution.
+.SH ENVIRONMENT VARIABLES
+.TP
+.I WINEPREFIX
+Specifies the directory that contains the per-user
+.I config
+file, the registry files, and the DOS device mappings. The default is
+.I $HOME/.wine.
+.SH FILES
+.TP
+.I $WINEPREFIX/config
+User-specific configuration file
+.TP
+.I $WINEPREFIX/dosdevices
+Directory containing the DOS device mappings. Each file in that
+directory is a symlink to the Unix device file implementing a given
+device. For instance, if COM1 is mapped to /dev/ttyS0 you'd have a
+symlink of the form $WINEPREFIX/dosdevices/com1 -> /dev/ttyS0.
+.SH "SEE ALSO"
+.BR wine (1)

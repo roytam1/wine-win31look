@@ -1,0 +1,65 @@
+/*
+ * Copyright 1995 Jukka Iivonen
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+LANGUAGE LANG_FINNISH, SUBLANG_DEFAULT
+
+SYSMENU MENU LOADONCALL MOVEABLE DISCARDABLE
+{
+ MENUITEM "&Palauta", 61728
+ MENUITEM "Sii&rr‰", 61456
+ MENUITEM "&Muuta kokoa", 61440
+ MENUITEM "P&ienenn‰", 61472
+ MENUITEM "S&uurenna", 61488
+ MENUITEM SEPARATOR
+ MENUITEM "&Sulje\tAlt+F4", 61536
+ MENUITEM SEPARATOR
+ MENUITEM "&Vaihda...\tCtrl+Esc", 61744
+ MENUITEM SEPARATOR
+ MENUITEM "&Tietoja WINEista...", 61761
+ MENUITEM SEPARATOR
+ MENUITEM "&Lis‰‰ merkki 'Debug mark' debug lokiin", 61762
+}
+
+EDITMENU MENU LOADONCALL MOVEABLE DISCARDABLE
+{
+	POPUP ""
+	BEGIN
+		MENUITEM "Pala&uta", EM_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "&Leikkaa", WM_CUT
+		MENUITEM "&Kopio", WM_COPY
+		MENUITEM "L&iit‰", WM_PASTE
+		MENUITEM "&Poista", WM_CLEAR
+		MENUITEM SEPARATOR
+		MENUITEM "&Valitse Kaikki", EM_SETSEL
+	END
+}
+
+MSGBOX DIALOG 100, 80, 216, 168
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+BEGIN
+        ICON "", 1088, 8, 20, 16, 16, WS_CHILD | WS_VISIBLE
+        LTEXT "", 100, 32, 4, 176, 48, WS_CHILD | WS_VISIBLE | WS_GROUP
+        PUSHBUTTON "&OK", 1, 16, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+        PUSHBUTTON "&Peruuta", 2, 64, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+        PUSHBUTTON "&Keskeyt‰", 3, 112, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+        PUSHBUTTON "&Uudelleen", 4, 160, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+        PUSHBUTTON "&Hylk‰‰", 5, 208, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+        PUSHBUTTON "&Kyll‰", 6, 256, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+        PUSHBUTTON "&Ei", 7, 304, 56, 40, 14, WS_CHILD | WS_VISIBLE | WS_TABSTOP
+END

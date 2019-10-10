@@ -1,0 +1,12 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wow32.dll
+IMPORTS   = kernel32
+
+C_SRCS = wow_main.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

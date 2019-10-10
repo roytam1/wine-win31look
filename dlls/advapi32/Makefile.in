@@ -1,0 +1,22 @@
+EXTRADEFS = -D_ADVAPI32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = advapi32.dll
+IMPORTS   = kernel32 ntdll
+EXTRALIBS = $(LIBUNICODE)
+
+C_SRCS = \
+	advapi.c \
+	crypt.c \
+	eventlog.c \
+	registry.c \
+	security.c \
+	service.c
+
+SUBDIRS = tests
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

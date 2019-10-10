@@ -1,0 +1,63 @@
+EXTRADEFS = -DBINDIR="\"$(bindir)\""
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = x11drv.dll
+IMPORTS   = user32 gdi32 advapi32 kernel32 ntdll
+EXTRAINCL = @X_CFLAGS@
+EXTRALIBS = $(LIBUNICODE) @X_LIBS@ @X_PRE_LIBS@ @XLIB@ @X_EXTRA_LIBS@
+
+C_SRCS = \
+	bitblt.c \
+	bitmap.c \
+	brush.c \
+	clipboard.c \
+	clipping.c \
+	codepage.c \
+	desktop.c \
+	dga2.c \
+	dib.c \
+	dib_convert.c \
+	dib_dst_swap.c \
+	dib_src_swap.c \
+	event.c \
+	graphics.c \
+	init.c \
+	keyboard.c \
+	mouse.c \
+	opengl.c \
+	palette.c \
+	pen.c \
+	scroll.c \
+	settings.c \
+	text.c \
+	window.c \
+	winpos.c \
+	wintab.c \
+	x11ddraw.c \
+	x11drv_main.c \
+	xdnd.c \
+	xfont.c \
+	xim.c \
+	xrandr.c \
+	xrender.c \
+	xvidmode.c
+
+PROGRAMS = wineclipsrv
+
+@MAKE_DLL_RULES@
+
+all: $(PROGRAMS)
+
+wineclipsrv: wineclipsrv.c
+	$(CC) $(ALLCFLAGS) -o wineclipsrv $(SRCDIR)/wineclipsrv.c $(EXTRALIBS) $(LDFLAGS) $(LIBS)
+
+install:: $(PROGRAMS)
+	$(MKINSTALLDIRS) $(bindir)
+	$(INSTALL_PROGRAM) wineclipsrv $(bindir)/wineclipsrv
+
+uninstall::
+	$(RM) $(bindir)/wineclipsrv
+
+### Dependencies:

@@ -1,0 +1,61 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = ddraw.dll
+IMPORTS   = ole32 user32 gdi32 advapi32 kernel32
+EXTRAINCL = @X_CFLAGS@
+EXTRALIBS = -ldxguid -luuid @X_LIBS@ @X_PRE_LIBS@ @XLIB@ @X_EXTRA_LIBS@ 
+
+OPENGLFILES = \
+	d3dcommon.c \
+	d3ddevice/main.c \
+	d3ddevice/mesa.c \
+	d3dexecutebuffer.c \
+	d3dlight.c \
+	d3dmaterial.c \
+	d3dtexture.c \
+	d3dvertexbuffer.c \
+	d3dviewport.c \
+	direct3d/main.c \
+	direct3d/mesa.c \
+	mesa.c
+
+C_SRCS = \
+	@OPENGLFILES@ \
+	convert.c \
+	dclipper/main.c \
+	ddraw/hal.c \
+	ddraw/main.c \
+	ddraw/thunks.c \
+	ddraw/user.c \
+	dpalette/hal.c \
+	dpalette/main.c \
+	dsurface/dib.c \
+	dsurface/fakezbuffer.c \
+	dsurface/gamma.c \
+	dsurface/hal.c \
+	dsurface/main.c \
+	dsurface/thunks.c \
+	dsurface/user.c \
+	dsurface/wndproc.c \
+	helper.c \
+	main.c \
+	regsvr.c \
+	struct_convert.c
+
+RC_SRCS = version.rc
+
+SUBDIRS = tests
+
+EXTRASUBDIRS = \
+	d3ddevice \
+	dclipper \
+	ddraw \
+	direct3d \
+	dpalette \
+	dsurface
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

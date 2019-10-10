@@ -1,0 +1,64 @@
+DEFS      = -D__WINESRC__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = none
+
+C_SRCS = \
+	async.c \
+	atom.c \
+	change.c \
+	class.c \
+	clipboard.c \
+	console.c \
+	context_i386.c \
+	context_powerpc.c \
+	context_sparc.c \
+	debugger.c \
+	event.c \
+	fd.c \
+	file.c \
+	handle.c \
+	hook.c \
+	main.c \
+	mapping.c \
+	mutex.c \
+	named_pipe.c \
+	object.c \
+	process.c \
+	ptrace.c \
+	queue.c \
+	registry.c \
+	request.c \
+	semaphore.c \
+	serial.c \
+	signal.c \
+	smb.c \
+	snapshot.c \
+	sock.c \
+	thread.c \
+	timer.c \
+	token.c \
+	trace.c \
+	unicode.c \
+	user.c \
+	window.c
+
+PROGRAMS = wineserver
+
+all: $(PROGRAMS)
+
+@MAKE_RULES@
+
+wineserver: $(OBJS)
+	$(CC) -o $(PROGRAMS) $(OBJS) $(LIBWINE) $(LIBUNICODE) $(LIBPORT) $(LDFLAGS) $(LIBS)
+
+install:: $(PROGRAMS)
+	$(MKINSTALLDIRS) $(bindir)
+	$(INSTALL_PROGRAM) wineserver $(bindir)/wineserver
+
+uninstall::
+	$(RM) $(bindir)/wineserver
+
+### Dependencies:

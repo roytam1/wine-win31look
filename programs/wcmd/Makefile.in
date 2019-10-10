@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wcmd.exe
+APPMODE   = -mconsole
+IMPORTS   = shell32 user32 kernel32
+
+C_SRCS = \
+	batch.c \
+	builtins.c \
+	directory.c \
+	wcmdmain.c
+
+RC_SRCS = wcmdrc.rc
+RC_BINSRC = wcmdrc.rc
+RC_BINARIES = wcmd.ico
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

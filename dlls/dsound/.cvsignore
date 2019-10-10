@@ -1,0 +1,4 @@
+Makefile
+dsound.dll.dbg.c
+dsound.spec.def
+version.res

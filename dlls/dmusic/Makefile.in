@@ -1,0 +1,27 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dmusic.dll
+IMPORTS   = winmm ole32 msacm32 dsound rpcrt4 user32 advapi32 kernel32 ntdll
+EXTRALIBS = -ldxguid -luuid
+
+C_SRCS = \
+	buffer.c \
+	clock.c \
+	collection.c \
+	dmusic.c \
+	dmusic_main.c \
+	download.c \
+	downloadedinstrument.c \
+	instrument.c \
+	port.c \
+	portdownload.c \
+	regsvr.c \
+	thru.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

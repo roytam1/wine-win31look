@@ -1,0 +1,17 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winealsa.drv
+IMPORTS   = winmm user32 advapi32 kernel32 ntdll
+EXTRALIBS = -ldxguid -luuid @ALSALIBS@
+
+C_SRCS = \
+	audio.c \
+	audio_05.c \
+	alsa.c \
+	midi.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

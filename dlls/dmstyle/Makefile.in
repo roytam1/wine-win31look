@@ -1,0 +1,24 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dmstyle.dll
+IMPORTS   = ole32 user32 advapi32 kernel32
+EXTRALIBS = -ldxguid -luuid
+
+C_SRCS = \
+	auditiontrack.c \
+	chordtrack.c \
+	commandtrack.c \
+	dmstyle_main.c \
+	motiftrack.c \
+	mutetrack.c \
+	regsvr.c \
+	style.c \
+	styletrack.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

@@ -1,0 +1,84 @@
+EXTRADEFS = -D_GDI32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = gdi32.dll
+IMPORTS   = advapi32 kernel32 ntdll
+ALTNAMES  = gdi.exe dispdib.dll wing.dll
+EXTRAINCL = @FREETYPEINCL@
+EXTRALIBS = $(LIBUNICODE) @ICULIBS@
+
+SPEC_SRCS16 = \
+	dispdib.spec \
+	gdi.exe.spec \
+	wing.spec
+
+C_SRCS = \
+	$(TOPOBJDIR)/objects/bitmap.c \
+	$(TOPOBJDIR)/objects/brush.c \
+	$(TOPOBJDIR)/objects/clipping.c \
+	$(TOPOBJDIR)/objects/dc.c \
+	$(TOPOBJDIR)/objects/dcvalues.c \
+	$(TOPOBJDIR)/objects/dib.c \
+	$(TOPOBJDIR)/objects/enhmetafile.c \
+	$(TOPOBJDIR)/objects/font.c \
+	$(TOPOBJDIR)/objects/gdiobj.c \
+	$(TOPOBJDIR)/objects/linedda.c \
+	$(TOPOBJDIR)/objects/metafile.c \
+	$(TOPOBJDIR)/objects/palette.c \
+	$(TOPOBJDIR)/objects/pen.c \
+	$(TOPOBJDIR)/objects/region.c \
+	$(TOPOBJDIR)/objects/text.c \
+	bidi.c \
+	bitblt.c \
+	driver.c \
+	enhmfdrv/bitblt.c \
+	enhmfdrv/dc.c \
+	enhmfdrv/graphics.c \
+	enhmfdrv/init.c \
+	enhmfdrv/mapping.c \
+	enhmfdrv/objects.c \
+	freetype.c \
+	gdi_main.c \
+	icm.c \
+	mapping.c \
+	mfdrv/bitblt.c \
+	mfdrv/dc.c \
+	mfdrv/graphics.c \
+	mfdrv/init.c \
+	mfdrv/mapping.c \
+	mfdrv/objects.c \
+	mfdrv/text.c \
+	painting.c \
+	path.c \
+	printdrv.c
+
+C_SRCS16 = \
+	bidi16.c \
+	dispdib.c \
+	env.c \
+	gdi16.c \
+	wing.c
+
+RC_SRCS = version.rc
+RC_SRCS16 = version16.rc
+
+SUBDIRS = tests
+
+EXTRASUBDIRS = \
+	$(TOPOBJDIR)/objects \
+	enhmfdrv \
+	mfdrv
+
+@MAKE_DLL_RULES@
+
+# Special rules for 16-bit resource and spec files
+
+gdi.exe.spec.c: gdi.exe.spec version16.res
+	$(WINEBUILD) $(DEFS) $(DLLFLAGS) -o $@ --heap 65520 --main-module $(MODULE) --res version16.res --dll $(SRCDIR)/gdi.exe.spec
+
+version16.res: version16.rc
+	$(LDPATH) $(RC16) $(RC16FLAGS) -fo$@ $(SRCDIR)/version16.rc
+
+### Dependencies:

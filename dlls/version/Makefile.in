@@ -1,0 +1,22 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = version.dll
+IMPORTS   = lz32 kernel32
+ALTNAMES  = ver.dll
+EXTRALIBS = $(LIBUNICODE)
+
+SPEC_SRCS16 = $(ALTNAMES:.dll=.spec)
+
+C_SRCS = \
+	info.c \
+	install.c \
+	resource.c
+
+C_SRCS16 = \
+	ver16.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

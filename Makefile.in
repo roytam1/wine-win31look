@@ -1,0 +1,156 @@
+# This Makefile understands the following targets:
+#
+# all (default):   build wine
+# clean:           remove all intermediate files
+# distclean:       also remove all files created by configure
+# test:            run tests
+# testclean:       clean test results to force running all tests again
+# install-lib:     install libraries needed to run applications
+# install-dev:     install development environment
+# install:         install everything
+# uninstall:       uninstall everything
+# depend:          create the dependencies
+# etags:           create a TAGS file for Emacs.
+# manpages:        compile manpages for Wine API
+# htmlpages:       compile html pages for Wine API
+# sgmlpages:       compile sgml source for the Wine API Guide
+
+# Directories
+
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = .
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBEXT    = @LIBEXT@
+LDCONFIG  = @LDCONFIG@
+LDD       = @LDD@
+MODULE    = none
+
+# Sub-directories to run make depend/clean into
+SUBDIRS = \
+	dlls \
+	documentation \
+	include \
+	libs \
+	loader \
+	programs \
+	server \
+	tools
+
+# Sub-directories to install for install-lib
+INSTALLLIBSUBDIRS = \
+	documentation \
+	loader \
+	programs \
+	server
+
+# Sub-directories to install for install-dev
+INSTALLDEVSUBDIRS = include tools
+
+# Sub-directories to install for both install-lib and install-dev
+INSTALLBOTHSUBDIRS = dlls libs
+
+INSTALLSUBDIRS = $(INSTALLDEVSUBDIRS) $(INSTALLLIBSUBDIRS)
+
+# Sub-directories to run make test into
+TESTSUBDIRS = \
+	dlls \
+	programs
+
+all: Make.rules wine
+	@echo "Wine build complete."
+
+WINAPI_CHECK_EXTRA_FLAGS = --global
+
+@MAKE_RULES@
+
+Make.rules: Make.rules.in configure
+	@echo $? is newer than 'Make.rules', please rerun ./configure!
+	@exit 1
+
+wine: $(WINEWRAPPER)
+	$(RM) $@ && $(LN_S) $(WINEWRAPPER) $@
+
+# Installation rules
+
+install-aclocal: dummy
+	$(MKINSTALLDIRS) $(datadir)/aclocal
+	$(INSTALL_DATA) $(SRCDIR)/aclocal.m4 $(datadir)/aclocal/wine.m4
+
+install-lib:: $(INSTALLLIBSUBDIRS:%=%/__install__) $(INSTALLBOTHSUBDIRS:%=%/__install-lib__)
+
+install-dev:: $(INSTALLDEVSUBDIRS:%=%/__install__) $(INSTALLBOTHSUBDIRS:%=%/__install-dev__) install-aclocal
+
+install:: install-lib install-dev install-aclocal
+	-$(LDCONFIG)
+	@if test -n "`LANG=C $(LDD) $(bindir)/wine|grep not.found`";	\
+	then								\
+		echo "*************************************************" ; \
+		echo "*************************************************" ; \
+		echo "The installed Wine libraries will not be found!" ; \
+		echo "You can either:" ; 				\
+		echo "   Add the line '$(libdir)' to /etc/ld.so.conf and run /sbin/ldconfig" ;	\
+		echo '   export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(libdir)' ; \
+		echo "*************************************************" ; \
+		echo "*************************************************" ; \
+	fi
+
+uninstall:: $(INSTALLBOTHSUBDIRS:%=%/__uninstall__)
+	$(RM) $(datadir)/aclocal/wine.m4
+	-rmdir $(datadir)/wine $(datadir)/aclocal
+
+.PHONY: install-aclocal
+
+# Dependencies between directories
+
+all: $(SUBDIRS)
+dlls: libs tools
+loader server: libs tools
+programs: dlls libs tools
+tools: libs
+
+dlls/__install-lib__ dlls/__install-dev__: libs tools
+libs/__install-lib__ libs/__install-dev__: libs
+loader/__install__ server/__install__: libs tools
+programs/__install__: libs tools dlls/__install-lib__
+tools/__install__: tools
+
+# Test rules
+
+checklink:: $(TESTSUBDIRS:%=%/__checklink__)
+
+check test:: wine $(TESTSUBDIRS:%=%/__test__)
+
+crosstest:: $(TESTSUBDIRS:%=%/__crosstest__)
+
+# Misc rules
+
+TAGS etags:
+	find $(TOPSRCDIR) -name '*.[ch]' -a -not -name '*.spec.c' -a -not -name '*.dbg.c' -print | etags -
+
+tags ctags:
+	find $(TOPSRCDIR) -name '*.[ch]' -a -not -name '*.spec.c' -a -not -name '*.dbg.c' -print | ctags --c-types=+px -L -
+
+manpages:
+	$(MKINSTALLDIRS) $(TOPOBJDIR)/documentation/man3w
+	cd dlls && $(MAKE) man
+
+htmlpages:
+	$(MKINSTALLDIRS) $(TOPOBJDIR)/documentation/html
+	cd dlls && $(MAKE) doc-html
+
+sgmlpages:
+	$(MKINSTALLDIRS) $(TOPOBJDIR)/documentation/api-guide
+	cd dlls && $(MAKE) doc-sgml
+
+clean::
+	$(RM) wine
+
+distclean: clean
+	$(RM) config.* configure.lineno TAGS tags Make.rules dlls/Makedll.rules dlls/Maketest.rules programs/Makeprog.rules libs/Makelib.rules include/config.h
+	$(RM) -r autom4te.cache
+	$(RM) `find . \( -name Makefile -o -size 0 \) -print`
+
+.PHONY: manpages htmlpages distclean
+
+### Dependencies:

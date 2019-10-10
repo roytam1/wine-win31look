@@ -1,0 +1,4 @@
+Makefile
+quartz.dll.dbg.c
+quartz.spec.def
+version.res

@@ -1,0 +1,12 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = avicap32.dll
+IMPORTS   = ntdll
+
+C_SRCS = avicap32_main.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

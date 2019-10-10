@@ -1,0 +1,34 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = d3d8.dll
+IMPORTS   = user32 gdi32 kernel32
+EXTRAINCL = @X_CFLAGS@
+EXTRALIBS = -ldxguid -luuid @X_LIBS@ @X_PRE_LIBS@ @XLIB@ @X_EXTRA_LIBS@ @OPENGL_LIBS@
+
+C_SRCS = \
+	basetexture.c \
+	cubetexture.c \
+	d3d8_main.c \
+	device.c \
+	directx.c \
+	drawprim.c \
+	indexbuffer.c \
+	resource.c \
+	shader.c \
+	stateblock.c \
+	surface.c \
+	swapchain.c \
+	texture.c \
+	utils.c \
+	vertexbuffer.c \
+	volume.c \
+	volumetexture.c \
+	vshaderdeclaration.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

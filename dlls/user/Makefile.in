@@ -1,0 +1,188 @@
+EXTRADEFS = -D_USER32_ -D_WINABLE_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = user32.dll
+IMPORTS   = gdi32 advapi32 kernel32 ntdll
+ALTNAMES  = user.exe ddeml.dll display.drv keyboard.drv mouse.drv
+EXTRALIBS = $(LIBUNICODE)
+
+SPEC_SRCS16 = \
+	ddeml.spec \
+	display.drv.spec \
+	keyboard.drv.spec \
+	mouse.drv.spec \
+	user.exe.spec
+
+C_SRCS = \
+	$(TOPOBJDIR)/controls/button.c \
+	$(TOPOBJDIR)/controls/combo.c \
+	$(TOPOBJDIR)/controls/desktop.c \
+	$(TOPOBJDIR)/controls/edit.c \
+	$(TOPOBJDIR)/controls/icontitle.c \
+	$(TOPOBJDIR)/controls/listbox.c \
+	$(TOPOBJDIR)/controls/menu.c \
+	$(TOPOBJDIR)/controls/scroll.c \
+	$(TOPOBJDIR)/controls/static.c \
+	$(TOPOBJDIR)/controls/uitools.c \
+	$(TOPOBJDIR)/windows/class.c \
+	$(TOPOBJDIR)/windows/clipboard.c \
+	$(TOPOBJDIR)/windows/cursoricon.c \
+	$(TOPOBJDIR)/windows/dce.c \
+	$(TOPOBJDIR)/windows/defdlg.c \
+	$(TOPOBJDIR)/windows/defwnd.c \
+	$(TOPOBJDIR)/windows/dialog.c \
+	$(TOPOBJDIR)/windows/driver.c \
+	$(TOPOBJDIR)/windows/input.c \
+	$(TOPOBJDIR)/windows/keyboard.c \
+	$(TOPOBJDIR)/windows/mdi.c \
+	$(TOPOBJDIR)/windows/message.c \
+	$(TOPOBJDIR)/windows/msgbox.c \
+	$(TOPOBJDIR)/windows/multimon.c \
+	$(TOPOBJDIR)/windows/nonclient.c \
+	$(TOPOBJDIR)/windows/painting.c \
+	$(TOPOBJDIR)/windows/queue.c \
+	$(TOPOBJDIR)/windows/rect.c \
+	$(TOPOBJDIR)/windows/scroll.c \
+	$(TOPOBJDIR)/windows/spy.c \
+	$(TOPOBJDIR)/windows/struct32.c \
+	$(TOPOBJDIR)/windows/syscolor.c \
+	$(TOPOBJDIR)/windows/sysmetrics.c \
+	$(TOPOBJDIR)/windows/sysparams.c \
+	$(TOPOBJDIR)/windows/timer.c \
+	$(TOPOBJDIR)/windows/user.c \
+	$(TOPOBJDIR)/windows/win.c \
+	$(TOPOBJDIR)/windows/winhelp.c \
+	$(TOPOBJDIR)/windows/winpos.c \
+	$(TOPOBJDIR)/windows/winproc.c \
+	cache.c \
+	caret.c \
+	dde/client.c \
+	dde/ddeml16.c \
+	dde/misc.c \
+	dde/server.c \
+	dialog16.c \
+	display.c \
+	exticon.c \
+	focus.c \
+	hook.c \
+	lstr.c \
+	message.c \
+	misc.c \
+	mouse.c \
+	msg16.c \
+	painting.c \
+	property.c \
+	resource.c \
+	text.c \
+	user_main.c \
+	wsprintf.c
+
+C_SRCS16 = \
+	bidi16.c \
+	comm16.c \
+	hook16.c \
+	network.c \
+	user16.c \
+	wnd16.c
+
+RC_SRCS = resources/user32.rc
+
+RC_BINSRC = resources/user32_bin.rc
+RC_BINARIES = \
+	resources/obm_btncorners.bmp \
+	resources/obm_btsize.bmp \
+	resources/obm_check.bmp \
+	resources/obm_checkboxes.bmp \
+	resources/obm_close.bmp \
+	resources/obm_combo.bmp \
+	resources/obm_dnarrow.bmp \
+	resources/obm_dnarrowd.bmp \
+	resources/obm_dnarrowi.bmp \
+	resources/obm_lfarrow.bmp \
+	resources/obm_lfarrowd.bmp \
+	resources/obm_lfarrowi.bmp \
+	resources/obm_mnarrow.bmp \
+	resources/obm_old_close.bmp \
+	resources/obm_old_dnarrow.bmp \
+	resources/obm_old_lfarrow.bmp \
+	resources/obm_old_reduce.bmp \
+	resources/obm_old_restore.bmp \
+	resources/obm_old_rgarrow.bmp \
+	resources/obm_old_uparrow.bmp \
+	resources/obm_old_zoom.bmp \
+	resources/obm_reduce.bmp \
+	resources/obm_reduced.bmp \
+	resources/obm_restore.bmp \
+	resources/obm_restored.bmp \
+	resources/obm_rgarrow.bmp \
+	resources/obm_rgarrowd.bmp \
+	resources/obm_rgarrowi.bmp \
+	resources/obm_size.bmp \
+	resources/obm_trtype.bmp \
+	resources/obm_uparrow.bmp \
+	resources/obm_uparrowd.bmp \
+	resources/obm_uparrowi.bmp \
+	resources/obm_zoom.bmp \
+	resources/obm_zoomd.bmp \
+	resources/ocr_appstarting.cur \
+	resources/ocr_cross.cur \
+	resources/ocr_dragobject.cur \
+	resources/ocr_hand.cur \
+	resources/ocr_help.cur \
+	resources/ocr_ibeam.cur \
+	resources/ocr_icon.cur \
+	resources/ocr_no.cur \
+	resources/ocr_normal.cur \
+	resources/ocr_size.cur \
+	resources/ocr_sizeall.cur \
+	resources/ocr_sizenesw.cur \
+	resources/ocr_sizens.cur \
+	resources/ocr_sizenwse.cur \
+	resources/ocr_sizewe.cur \
+	resources/ocr_up.cur \
+	resources/ocr_wait.cur \
+	resources/oic_bang.ico \
+	resources/oic_hand.ico \
+	resources/oic_note.ico \
+	resources/oic_ques.ico \
+	resources/oic_sample.ico \
+	resources/oic_winlogo.ico
+
+RC_SRCS16 = \
+	resources/display.rc \
+	resources/mouse.rc \
+	resources/version16.rc
+
+SUBDIRS = tests
+
+EXTRASUBDIRS = \
+	$(TOPOBJDIR)/controls \
+	$(TOPOBJDIR)/windows \
+	dde \
+	resources
+
+@MAKE_DLL_RULES@
+
+# Special rules for 16-bit resource and spec files
+
+user.exe.spec.c: user.exe.spec resources/version16.res
+	$(WINEBUILD) $(DEFS) $(DLLFLAGS) -o $@ --heap 65520 --main-module $(MODULE) --res resources/version16.res --dll $(SRCDIR)/user.exe.spec
+
+display.drv.spec.c: display.drv.spec resources/display.res
+	$(WINEBUILD) $(DEFS) $(DLLFLAGS) -o $@ --main-module $(MODULE) --res resources/display.res --dll $(SRCDIR)/display.drv.spec
+
+mouse.drv.spec.c: mouse.drv.spec resources/mouse.res
+	$(WINEBUILD) $(DEFS) $(DLLFLAGS) -o $@ --main-module $(MODULE) --res resources/mouse.res --dll $(SRCDIR)/mouse.drv.spec
+
+resources/display.res: resources/display.rc
+	$(LDPATH) $(RC16) $(RC16FLAGS) -fo$@ $(SRCDIR)/resources/display.rc
+
+resources/mouse.res: resources/mouse.rc
+	$(LDPATH) $(RC16) $(RC16FLAGS) -fo$@ $(SRCDIR)/resources/mouse.rc
+
+resources/version16.res: resources/version16.rc
+	$(LDPATH) $(RC16) $(RC16FLAGS) -fo$@ $(SRCDIR)/resources/version16.rc
+
+### Dependencies:

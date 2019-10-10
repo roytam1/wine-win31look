@@ -1,0 +1,11 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = mapi32.dll
+
+C_SRCS = mapi32_main.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

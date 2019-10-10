@@ -1,0 +1,16 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winenas.drv
+IMPORTS   = winmm user32 kernel32
+EXTRAINCL = @X_CFLAGS@
+EXTRALIBS = -ldxguid -luuid @NASLIBS@
+
+C_SRCS = \
+	audio.c \
+	nas.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

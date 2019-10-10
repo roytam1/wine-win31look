@@ -1,0 +1,4 @@
+Makefile
+wintab.spec.c
+wintab32.dll.dbg.c
+wintab32.spec.def

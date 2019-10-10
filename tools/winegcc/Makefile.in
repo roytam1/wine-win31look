@@ -1,0 +1,40 @@
+DEFS = \
+	-DINCLUDEDIR="\"$(includedir)\"" \
+	-DDLLDIR="\"$(dlldir)\"" \
+	-DLIBDIR="\"$(libdir)\"" \
+	-DDLLFLAGS="\"@DLLFLAGS@\"" \
+	-DLDDLLFLAGS="\"@LDDLLFLAGS@\"" \
+	-DCC="\"$(CC)\"" \
+	-DCPP="\"@CPPBIN@\"" \
+	-DCXX="\"$(CXX)\""
+
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+EXEEXT    = @EXEEXT@
+MODULE    = none
+
+PROGRAMS = winegcc$(EXEEXT)
+
+C_SRCS = \
+	utils.c \
+	winegcc.c
+
+all: $(PROGRAMS)
+
+@MAKE_RULES@
+
+winegcc$(EXEEXT): winegcc.o utils.o
+	$(CC) $(CFLAGS) -o $@ winegcc.o utils.o $(LIBPORT)
+
+install:: $(PROGRAMS)
+	$(MKINSTALLDIRS) $(bindir)
+	$(INSTALL_PROGRAM) winegcc$(EXEEXT) $(bindir)/winegcc$(EXEEXT)
+	cd $(bindir) && $(RM) wineg++$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) wineg++$(EXEEXT)
+	cd $(bindir) && $(RM) winecpp$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) winecpp$(EXEEXT)
+
+uninstall::
+	$(RM) $(bindir)/winegcc$(EXEEXT) $(bindir)/wineg++y$(EXEEXT) $(bindir)/winecpp$(EXEEXT)
+
+### Dependencies:

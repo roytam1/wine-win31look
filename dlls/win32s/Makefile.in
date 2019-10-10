@@ -1,0 +1,20 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = w32skrnl.dll
+IMPORTS   = kernel32
+ALTNAMES  = w32sys.dll win32s16.dll
+
+SPEC_SRCS16 = $(ALTNAMES:.dll=.spec)
+
+C_SRCS = \
+	w32skernel.c \
+	w32sys.c
+
+C_SRCS16 = \
+	win32s16.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

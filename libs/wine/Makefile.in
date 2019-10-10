@@ -1,0 +1,20 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBRARY   = wine
+SOVERSION = 1
+VERSCRIPT = $(SRCDIR)/wine.map
+EXTRADEFS = -D__WINESRC__ -DBINDIR="\"$(bindir)\"" -DDLLDIR="\"$(dlldir)\""
+EXTRALIBS = $(LIBPORT) @DLLIBS@ @CRTLIBS@
+
+C_SRCS = \
+	config.c \
+	debug.c \
+	ldt.c \
+	loader.c \
+	port.c
+
+@MAKE_LIB_RULES@
+
+### Dependencies:

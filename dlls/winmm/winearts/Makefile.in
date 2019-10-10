@@ -1,0 +1,16 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winearts.drv
+IMPORTS   = winmm user32 kernel32
+EXTRAINCL = @ARTSINCL@
+EXTRALIBS = @ARTSLIBS@ -ldxguid -luuid
+
+C_SRCS = \
+	arts.c \
+	audio.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

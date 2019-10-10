@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = ttydrv.dll
+IMPORTS   = user32 gdi32 kernel32
+EXTRALIBS = @CURSESLIBS@
+
+C_SRCS = \
+	bitmap.c \
+	dc.c \
+	graphics.c \
+	objects.c \
+	palette.c \
+	ttydrv_main.c \
+	user.c \
+	wnd.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

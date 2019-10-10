@@ -1,0 +1,4 @@
+Makefile
+ver.spec.c
+version.dll.dbg.c
+version.spec.def

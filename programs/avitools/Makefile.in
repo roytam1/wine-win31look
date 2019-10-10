@@ -1,0 +1,70 @@
+DEFS       = $(EXTRADEFS)
+DLLFLAGS   = @DLLFLAGS@
+TOPSRCDIR  = @top_srcdir@
+TOPOBJDIR  = ../..
+SRCDIR     = @srcdir@
+VPATH      = @srcdir@
+MODULE     = none
+PROGRAMS   = aviinfo.exe aviplay.exe icinfo.exe
+ALL_LIBS   = $(LIBWINE) $(LIBPORT) $(LDFLAGS) $(LIBS)
+
+C_SRCS = \
+	aviinfo.c \
+	aviplay.c \
+	icinfo.c
+
+@MAKE_RULES@
+
+all: $(PROGRAMS:%=%$(DLLEXT)) $(PROGRAMS:.exe=$(EXEEXT))
+
+aviinfo.exe.so: aviinfo.o
+	$(WINEGCC) -B$(TOOLSDIR)/tools/winebuild -mwindows -o $@ aviinfo.o -L$(DLLDIR) -lavifil32 -lkernel32 $(ALL_LIBS)
+
+aviplay.exe.so: aviplay.o
+	$(WINEGCC) -B$(TOOLSDIR)/tools/winebuild -mwindows -o $@ aviplay.o -L$(DLLDIR) -lavifil32 -lddraw -lkernel32 $(ALL_LIBS)
+
+icinfo.exe.so: icinfo.o
+	$(WINEGCC) -B$(TOOLSDIR)/tools/winebuild -mwindows -o $@ icinfo.o -L$(DLLDIR) -lmsvfw32 -lkernel32 $(ALL_LIBS)
+
+aviinfo.exe: aviinfo.o
+	$(CC) -o $@ aviinfo.o -lavifil32 $(ALL_LIBS)
+
+aviplay.exe: aviplay.o
+	$(CC) -o $@ aviplay.o -lavifil32 -lddraw $(ALL_LIBS)
+
+icinfo.exe: icinfo.o
+	$(CC) -o $@ icinfo.o -lmsvfw32 $(ALL_LIBS)
+
+$(PROGRAMS:.exe=): $(WINEWRAPPER)
+	$(RM) $@ && $(LN_S) $(WINEWRAPPER) $@
+
+# Rules for installation
+
+.PHONY: install_prog install_prog.so uninstall_prog uninstall_prog.so
+
+install_prog.so: $(PROGRAMS:%=%.so)
+	$(MKINSTALLDIRS) $(dlldir)
+	$(INSTALL_PROGRAM) aviinfo.exe.so $(dlldir)/aviinfo.exe.so
+	$(INSTALL_PROGRAM) aviplay.exe.so $(dlldir)/aviplay.exe.so
+	$(INSTALL_PROGRAM) icinfo.exe.so $(dlldir)/icinfo.exe.so
+
+install_prog: $(PROGRAMS)
+	$(MKINSTALLDIRS) $(bindir)
+	$(INSTALL_PROGRAM) aviinfo.exe $(bindir)/aviinfo.exe
+	$(INSTALL_PROGRAM) aviplay.exe $(bindir)/aviplay.exe
+	$(INSTALL_PROGRAM) icinfo.exe $(bindir)/icinfo.exe
+
+uninstall_prog.so:
+	$(RM) $(PROGRAMS:%=$(dlldir)/%.so)
+
+uninstall_prog:
+	$(RM) $(PROGRAMS:%=$(bindir)/%)
+
+install:: install_prog$(DLLEXT)
+
+uninstall:: uninstall_prog$(DLLEXT)
+
+clean::
+	$(RM) $(PROGRAMS:.exe=)
+
+### Dependencies:

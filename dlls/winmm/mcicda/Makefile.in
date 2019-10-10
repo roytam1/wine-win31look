@@ -1,0 +1,13 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = mcicda.drv
+IMPORTS   = winmm user32 kernel32
+
+C_SRCS = \
+	mcicda.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

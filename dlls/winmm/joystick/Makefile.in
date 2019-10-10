@@ -1,0 +1,13 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = joystick.drv
+IMPORTS   = winmm user32
+
+C_SRCS = \
+	joystick.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

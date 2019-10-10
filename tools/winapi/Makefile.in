@@ -1,0 +1,25 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = none
+
+@MAKE_RULES@
+
+install::
+	$(MKINSTALLDIRS) $(bindir)
+	$(INSTALL_SCRIPT) $(SRCDIR)/trampoline $(bindir)/make_filter
+	$(INSTALL_SCRIPT) $(SRCDIR)/trampoline $(bindir)/winapi_check
+	$(INSTALL_SCRIPT) $(SRCDIR)/trampoline $(bindir)/winapi_cleanup
+	$(INSTALL_SCRIPT) $(SRCDIR)/trampoline $(bindir)/winapi_extract
+	$(INSTALL_SCRIPT) $(SRCDIR)/trampoline $(bindir)/winapi_fixup
+	$(INSTALL_SCRIPT) $(SRCDIR)/trampoline $(bindir)/winapi_test
+
+uninstall::
+	$(RM) $(bindir)/make_filter
+	$(RM) $(bindir)/winapi_check
+	$(RM) $(bindir)/winapi_extract
+	$(RM) $(bindir)/winapi_fixup
+	$(RM) $(bindir)/winapi_test
+
+### Dependencies:

@@ -1,0 +1,93 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wineps.dll
+IMPORTS   = user32 gdi32 winspool advapi32 kernel32
+ALTNAMES  = wineps16.drv
+EXTRAINCL = @FREETYPEINCL@
+
+SPEC_SRCS16 = wineps16.drv.spec
+
+FONTMETRICS = \
+	AvantGarde_Book \
+	AvantGarde_BookOblique \
+	AvantGarde_Demi \
+	AvantGarde_DemiOblique \
+	Bookman_Demi \
+	Bookman_DemiItalic \
+	Bookman_Light \
+	Bookman_LightItalic \
+	Courier \
+	Courier_Bold \
+	Courier_BoldOblique \
+	Courier_Oblique \
+	Helvetica \
+	Helvetica_Bold \
+	Helvetica_BoldOblique \
+	Helvetica_Narrow \
+	Helvetica_Narrow_Bold \
+	Helvetica_Narrow_BoldOblique \
+	Helvetica_Narrow_Oblique \
+	Helvetica_Oblique \
+	NewCenturySchlbk_Bold \
+	NewCenturySchlbk_BoldItalic \
+	NewCenturySchlbk_Italic \
+	NewCenturySchlbk_Roman \
+	Palatino_Bold \
+	Palatino_BoldItalic \
+	Palatino_Italic \
+	Palatino_Roman \
+	Symbol \
+	Times_Bold \
+	Times_BoldItalic \
+	Times_Italic \
+	Times_Roman \
+	ZapfChancery_MediumItalic \
+	ZapfDingbats \
+
+DATA_C_SRCS = \
+	data/agl.c \
+	$(FONTMETRICS:%=data/%.c)
+
+C_SRCS = \
+	afm.c \
+	bitblt.c \
+	bitmap.c \
+	brush.c \
+	builtin.c \
+	clipping.c \
+	color.c \
+	download.c \
+	driver.c \
+	encode.c \
+	escape.c \
+	font.c \
+	glyphlist.c \
+	graphics.c \
+	init.c \
+	objects.c \
+	pen.c \
+	ppd.c \
+	ps.c \
+	text.c \
+	truetype.c \
+	type1.c \
+	type1afm.c \
+	type42.c \
+	$(DATA_C_SRCS)
+
+RC_SRCS= rsrc.rc
+
+EXTRASUBDIRS = data
+
+@MAKE_DLL_RULES@
+
+install::
+	$(MKINSTALLDIRS) $(datadir)/wine
+	$(INSTALL_DATA) $(SRCDIR)/generic.ppd $(datadir)/wine/generic.ppd
+
+uninstall::
+	$(RM) $(datadir)/wine/generic.ppd
+
+### Dependencies:

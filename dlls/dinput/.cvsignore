@@ -1,0 +1,4 @@
+Makefile
+dinput.dll.dbg.c
+dinput.spec.def
+version.res

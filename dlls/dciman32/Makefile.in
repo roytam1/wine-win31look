@@ -1,0 +1,12 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dciman32.dll
+IMPORTS   = kernel32
+
+C_SRCS = dciman_main.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

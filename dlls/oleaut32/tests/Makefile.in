@@ -1,0 +1,17 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+TESTDLL   = oleaut32.dll
+IMPORTS   = oleaut32
+EXTRALIBS = -luuid
+
+CTESTS = \
+	olefont.c \
+	safearray.c \
+	vartest.c \
+	vartype.c
+
+@MAKE_TEST_RULES@
+
+### Dependencies:

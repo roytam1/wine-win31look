@@ -1,0 +1,25 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dsound.dll
+IMPORTS   = winmm ole32 user32 advapi32 kernel32 ntdll
+EXTRALIBS = -ldxguid -luuid
+
+C_SRCS = \
+	buffer.c \
+	capture.c \
+	dsound_main.c \
+	mixer.c \
+	primary.c \
+	propset.c \
+	regsvr.c \
+	sound3d.c
+
+RC_SRCS = version.rc
+
+SUBDIRS = tests
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

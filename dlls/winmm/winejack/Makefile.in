@@ -1,0 +1,15 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winejack.drv
+IMPORTS   = winmm user32 kernel32
+EXTRALIBS = -ldxguid -luuid
+
+C_SRCS = \
+	audio.c \
+	jack.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

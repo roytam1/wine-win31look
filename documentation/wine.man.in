@@ -1,0 +1,370 @@
+.\" -*- nroff -*-
+.TH WINE 1 "May 2002" "@PACKAGE_STRING@" "Windows On Unix"
+.SH NAME
+wine \- run Windows programs on Unix
+.SH SYNOPSIS
+.BI "wine " "[wine_options] " "[--] " "program " "[arguments ... ]"
+.PP
+For instructions on passing arguments to Windows programs, please see the
+.B
+PROGRAM/ARGUMENTS
+section of the man page.
+.SH DESCRIPTION
+.B wine
+loads and runs the given program, where the program is a DOS, Windows
+3.x, or Win32 executable (x86 binaries only).
+.PP
+For debugging wine, use
+.B winedbg
+instead.
+.PP
+For running CUI executables (Windows console programs), use
+.B wineconsole
+instead of
+.B wine.
+This will display all the output in a separate windows (this requires X11 to
+run). Not using
+.B wineconsole
+for CUI programs will only provide very limited console support, and your
+program might not function properly.
+.PP
+.B wine 
+currently runs a growing list of applications written for all kinds of
+Windows versions >= Win2.0, e.g. Win3.1, Win95/98, NT.
+Older, simpler applications work better than newer, more complex ones.
+Using Windows ME or Win2000 components with Wine is more problematic than
+using none at all or the ones from older Windows versions.
+A large percentage of the API has been implemented,
+although there are still several major pieces of work left to do.
+.SH REQUIREMENTS AND INSTALLATION
+Read the README file in the Wine source distribution and the
+.BR wine.conf (5)
+man page to know what Wine requires and how it is installed from
+source.
+.SH OPTIONS
+.TP
+.I --debugmsg [xxx]#name[,[xxx1]#name1]
+Turn debugging messages on or off.  This option is deprecated, you
+should use the
+.I WINEDEBUG
+environment variable instead (see below).
+.PD 1
+.SH PROGRAM/ARGUMENTS
+The program name may be specified in DOS format (
+.I
+C:\(rs\(rsWINDOWS\(rs\(rsSOL.EXE)
+or in Unix format (
+.I /msdos/windows/sol.exe
+).  You may pass arguments to the program being executed by adding them 
+to the end of the command line invoking
+.B wine
+(such as: wine notepad C:\(rs\(rsTEMP\(rs\(rsREADME.TXT).
+Note that you need to '\(rs' escape special characters (and spaces) when invoking Wine via
+a shell, e.g.
+.PP
+wine C:\(rs\(rsProgram\(rs Files\(rs\(rsMyPrg\(rs\(rstest.exe
+.PP
+Command line processing goes as
+follows: first 
+.B wine
+checks whether one or more of the above mentioned 
+.B wine 
+options have been specified. These
+are removed from the command line, which is passed to the windows program. You can use
+the parameter 
+.I -- 
+to indicate that 
+.B wine 
+should stop command line processing. This is needed in case a windows program understands 
+an option that is usually interpreted (and thus removed from the command line) 
+by 
+.B wine. 
+For example, if you want to execute 
+.B wine 
+with the options 
+.I --debugmsg +module
+and if 
+.B wine 
+should run the program 
+.I myapp.exe
+with the arguments
+.I --display 3d somefile
+, then you could use the following command line to invoke 
+.B wine:
+.PP
+.I wine --debugmsg +module -- myapp.exe --display 3d somefile
+.PP 
+Note that in contrast to previous versions of 
+.B wine, 
+you must not pass 
+program name and program option in one argument to 
+.B wine. 
+To run more
+than one windows program, just execute 
+.B wine 
+once with the name of each program as argument. 
+.SH ENVIRONMENT VARIABLES
+.B wine
+makes the environment variables of the shell from which
+.B wine
+is started accessible to the windows/dos processes started. So use the
+appropriate syntax for your shell to enter environment variables you need.
+.TP 
+.I WINEPREFIX
+If set, the content of this variable is taken as the name of the directory where
+.B wine
+stores its data (the default is 
+.I $HOME/.wine
+). This directory contains also the socket, which is used to communicate with the
+.I wineserver.
+All 
+.B wine
+processes using the same 
+.B wineserver
+(i.e.: same user) share certain things like registry, shared memory,
+and config file.
+By setting 
+.I WINEPREFIX
+to different values for different 
+.B wine
+processes, it is possible to run a number of truly independent 
+.B wine
+processes. 
+.TP
+.I WINESERVER
+Specifies the path and name of the
+.B wineserver
+binary. If not set, Wine will try to load
+.B @bindir@/wineserver,
+and if this doesn't exist it will then look for a file named
+"wineserver" in the path and in a few other likely locations.
+.TP
+.I WINELOADER
+Specifies the path and name of the
+.B wine
+binary to use to launch new Windows processes. If not set, Wine will
+try to load
+.B @bindir@/wine,
+and if this doesn't exist it will then look for a file named "wine" in
+the path and in a few other likely locations.
+.TP
+.I WINEDEBUG
+Turns debugging messages on or off. The syntax of the variable is
+of the form
+.RI [ class ][+/-] channel [,[ class2 ][+/-] channel2 ].
+.RS +7
+.PP
+.I class
+is optional and can be one of the following: 
+.B err, warn, fixme,
+or 
+.B trace. 
+If
+.I class
+is not specified, all debugging messages for the specified
+channel are turned on.  Each channel will print messages about a particular
+component of 
+.B wine.  
+The following character can be either + or - to switch the specified
+channel on or off respectively.  If there is no
+.I class
+part before it, a leading + can be omitted. Note that spaces are not
+allowed anywhere in the string.
+.PP
+Examples:
+.TP
+WINEDEBUG=warn+all
+will turn on all warning messages (recommended for debugging).
+.br
+.TP
+WINEDEBUG=warn+dll,+heap
+will turn on DLL warning messages and all heap messages.  
+.br
+.TP
+WINEDEBUG=fixme-all,warn+cursor,+relay
+will turn off all FIXME messages, turn on cursor warning messages, and turn
+on all relay messages (API calls).
+.br 
+.TP
+WINEDEBUG=relay
+will turn on all relay messages. For more control on including or excluding
+functions and dlls from the relay trace look into the [Debug] section
+of the wine configuration file.
+.PP
+For more information on debugging messages, see the
+.I Running Wine
+chapter of the Wine User Guide.
+.RE
+.TP
+.I WINEDLLPATH
+Specifies the path(s) in which to search for builtin dlls and Winelib
+applications. This is a list of directories separated by ":". In
+addition to any directory specified in
+.I WINEDLLPATH,
+Wine will also look in
+.B @dlldir@.
+.TP
+.I WINEDLLOVERRIDES
+Defines the override type and load order of dlls used in the loading
+process for any dll. The default is set in the configuration
+file. There are currently two types of libraries that can be loaded
+into a process' address space: Native windows dlls (
+.I native
+), 
+.B wine 
+internal dlls (
+.I builtin
+). The type may be abbreviated with the first letter of the type (
+.I n, b
+). Each sequence of orders must be separated by commas.
+.RS
+.PP
+Each dll may have its own specific load order. The load order
+determines which version of the dll is attempted to be loaded into the
+address space. If the first fails, then the next is tried and so
+on. Multiple libraries with the same load order can be separated with
+commas. It is also possible to use specify different loadorders for
+different libraries by separating the entries by ";".
+.PP
+The load order for a 16-bit dll is always defined by the load order of
+the 32-bit dll that contains it (which can be identified by looking at
+the symbolic link of the 16-bit .dll.so file). For instance if
+ole32.dll is configured as builtin, storage.dll will be loaded as
+builtin too, since the 32-bit ole32.dll contains the 16-bit
+storage.dll.
+.PP
+Examples:
+.TP
+WINEDLLOVERRIDES="comdlg32,shell32=n,b"
+.br
+Try to load comdlg32 and shell32 as native windows dll first and try
+the builtin version if the native load fails.
+.TP
+WINEDLLOVERRIDES="comdlg32,shell32=n;c:\(rs\(rsfoo\(rs\(rsbar\(rs\(rsbaz=b"
+.br
+Try to load the libraries comdlg32 and shell32 as native windows dlls. Furthermore, if 
+an application request to load c:\(rsfoo\(rsbar\(rsbaz.dll load the builtin library baz. 
+.TP
+WINEDLLOVERRIDES="comdlg32=b,n;shell32=b;comctl32=n"
+.br
+Try to load comdlg32 as builtin first and try the native version if
+the builtin load fails; load shell32 always as builtin and comctl32
+always as native.
+.RE
+.TP
+.I DISPLAY
+Specifies the X11 display to use.
+.SH CONFIGURATION FILE
+.B wine
+expects a configuration file (
+.I $WINEPREFIX/config
+or
+.I ~/.wine/config
+if WINEPREFIX is not set), which must conform to the format specified
+in the
+.BR wine.conf (5)
+man page. A sample configuration file is documentation/samples/config in the 
+.B wine 
+source archive.
+.SH AUTHORS
+.B wine
+is available thanks to the work of many developers. For a listing
+of the authors, please see the file 
+.B AUTHORS
+in the top-level directory of the source distribution.
+.SH COPYRIGHT
+.B wine
+can be distributed under the terms of the LGPL license. A copy of the
+license is in the file
+.B LICENSE
+in the top-level directory of the source distribution.
+.SH BUGS
+.PP
+A status report on many applications is available from
+.I http://www.winehq.org/Apps.
+Please add entries to this list for applications you currently run.
+.PP
+Bug reports may be posted to Wine Bugzilla
+.I http://bugs.winehq.org
+If you want to post a bug report, please read the file
+.I documentation/bugs.sgml
+in the 
+.B wine 
+source to see what information is necessary
+.PP
+Problems and suggestions with this manpage please also report to
+.I http://bugs.winehq.org
+.SH AVAILABILITY
+The most recent public version of 
+.B wine
+can be downloaded from
+.I http://www.winehq.org/download
+.PP
+The latest snapshot of the code may be obtained via CVS.  For information
+on how to do this, please see
+.I
+http://www.winehq.org/cvs
+.PP
+WineHQ, the
+.B wine
+development headquarters, is at
+.I http://www.winehq.org/.
+This website contains a great deal of information about
+.B wine.
+.PP
+The
+.B wine 
+newsgroup is 
+.I comp.emulators.ms-windows.wine.
+It is used for discussion of various 
+.B wine
+end user aspects/help.
+.PP
+For further information about 
+.B wine
+development, you might want to subscribe to the 
+.B wine 
+mailing lists at
+.I http://www.winehq.org/forums
+.SH FILES
+.PD 0
+.TP
+.I @bindir@/wine
+The 
+.B wine 
+program loader.
+.TP
+.I @bindir@/wineconsole
+The 
+.B wine 
+program loader for CUI (console) applications.
+.TP
+.I @bindir@/wineserver
+The 
+.B wine 
+server 
+.TP 
+.I @bindir@/winedbg
+The 
+.B wine 
+debugger
+.TP 
+.I @bindir@/wineclipsrv
+The 
+.B wine 
+clipboard server
+.TP 
+.I @dlldir@
+Directory containing 
+.B wine's
+shared libraries 
+.TP
+.I ~/.wine/config
+User-specific configuration file
+.TP 
+.I ~/.wine
+Directory containing user specific data managed by 
+.B wine. 
+
+.SH "SEE ALSO"
+.BR wine.conf (5)

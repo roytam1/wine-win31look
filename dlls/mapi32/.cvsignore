@@ -1,0 +1,4 @@
+Makefile
+mapi32.dll
+mapi32.dll.dbg.c
+mapi32.spec.def

@@ -1,0 +1,53 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wine
+
+C_SRCS = \
+	glibc.c \
+	kthread.c \
+	main.c \
+	pthread.c
+
+KTHREAD_OBJS = kthread.o main.o
+PTHREAD_OBJS = pthread.o main.o
+
+WINE_BINARIES = @WINE_BINARIES@
+MAIN_BINARY   = @MAIN_BINARY@
+
+all: $(WINE_BINARIES) $(MODULE)
+
+@MAKE_RULES@
+
+LIBPTHREAD  = @LIBPTHREAD@
+LDEXECFLAGS = @LDEXECFLAGS@
+
+wine-glibc: glibc.o Makefile.in
+	$(CC) -o $@ $(LDEXECFLAGS) glibc.o $(LIBWINE) $(LIBPORT) $(LIBPTHREAD) $(EXTRALIBS) $(LDFLAGS)
+
+wine-kthread: $(KTHREAD_OBJS) Makefile.in
+	$(CC) -o $@ $(LDEXECFLAGS) $(KTHREAD_OBJS) $(LIBWINE) $(LIBPORT) $(EXTRALIBS) $(LDFLAGS)
+
+wine-pthread: $(PTHREAD_OBJS) Makefile.in
+	$(CC) -o $@ $(LDEXECFLAGS) $(PTHREAD_OBJS) $(LIBWINE) $(LIBPORT) $(LIBPTHREAD) $(EXTRALIBS) $(LDFLAGS)
+
+$(MODULE): $(MAIN_BINARY)
+	$(RM) $(MODULE) && $(LN_S) $(MAIN_BINARY) $(MODULE)
+
+install:: $(WINE_BINARIES)
+	$(MKINSTALLDIRS) $(bindir)
+	for f in $(WINE_BINARIES); do \
+	  if [ "$(MAIN_BINARY)" = "$$f" ]; \
+	  then $(INSTALL_PROGRAM) $$f $(bindir)/$(MODULE); \
+	  else $(INSTALL_PROGRAM) $$f $(bindir)/$$f; \
+	  fi; \
+	done
+
+uninstall::
+	$(RM) $(WINE_BINARIES:%=$(bindir)/%) $(bindir)/$(MODULE)
+
+clean::
+	$(RM) $(WINE_BINARIES) $(MODULE)
+
+### Dependencies:

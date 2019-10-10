@@ -1,0 +1,14 @@
+Makefile
+authors.c
+desktop.ico
+document.ico
+drive.ico
+folder.ico
+folder_open.ico
+mycomputer.ico
+shell.spec.c
+shell32.dll.dbg.c
+shell32.spec.def
+shres.res
+version.res
+version16.res

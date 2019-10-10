@@ -1,0 +1,24 @@
+EXTRADEFS = -DUSE_WS_PREFIX
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = ws2_32.dll
+IMPORTS   = user32 iphlpapi kernel32 ntdll
+ALTNAMES  = winsock.dll
+
+SPEC_SRCS16 = $(ALTNAMES:.dll=.spec)
+
+C_SRCS = \
+	async.c \
+	socket.c
+
+C_SRCS16 = socket16.c
+
+RC_SRCS = version.rc
+
+SUBDIRS = tests
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

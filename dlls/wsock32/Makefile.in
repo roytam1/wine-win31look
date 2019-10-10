@@ -1,0 +1,17 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wsock32.dll
+IMPORTS   = ws2_32 iphlpapi kernel32
+
+C_SRCS = \
+	protocol.c \
+	service.c \
+	socket.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

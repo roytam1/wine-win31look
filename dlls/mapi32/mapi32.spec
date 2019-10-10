@@ -1,0 +1,191 @@
+  8 stub @
+ 10 stdcall MAPILogonEx(long ptr ptr long ptr)
+ 11 stdcall MAPILogonEx@20(long ptr ptr long ptr) MAPILogonEx
+ 12 stdcall MAPIAllocateBuffer(long ptr)
+ 13 stdcall MAPIAllocateBuffer@8(long ptr) MAPIAllocateBuffer
+ 14 stub MAPIAllocateMore
+ 15 stub MAPIAllocateMore@12
+ 16 stub MAPIFreeBuffer
+ 17 stub MAPIFreeBuffer@4
+ 18 stub MAPIAdminProfiles
+ 19 stub MAPIAdminProfiles@8
+ 20 stdcall MAPIInitialize(ptr)
+ 21 stdcall MAPIInitialize@4(ptr) MAPIInitialize
+ 22 stdcall MAPIUninitialize()
+ 23 stdcall MAPIUninitialize@0() MAPIUninitialize
+ 24 stub PRProviderInit
+ 25 stub LAUNCHWIZARD
+ 26 stub LaunchWizard@20
+ 27 stub DllGetClassObject
+ 28 stub DllCanUnloadNow
+ 29 stub MAPIOpenFormMgr
+ 30 stub MAPIOpenFormMgr@8
+ 31 stub MAPIOpenLocalFormContainer
+ 32 stub MAPIOpenLocalFormContainer@4
+ 33 stub ScInitMapiUtil@4
+ 34 stdcall DeinitMapiUtil@0() DeinitMapiUtil
+ 35 stub ScGenerateMuid@4
+ 36 stub HrAllocAdviseSink@12
+ 41 stub WrapProgress@20
+ 42 stub HrThisThreadAdviseSink@8
+ 43 stub ScBinFromHexBounded@12
+ 44 stub FBinFromHex@8
+ 45 stub HexFromBin@12
+ 46 stub BuildDisplayTable@40
+ 47 stub SwapPlong@8
+ 48 stub SwapPword@8
+ 49 stub MAPIInitIdle@4
+ 50 stub MAPIDeinitIdle@0
+ 51 stub InstallFilterHook@4
+ 52 stub FtgRegisterIdleRoutine@20
+ 53 stub EnableIdleRoutine@8
+ 54 stub DeregisterIdleRoutine@4
+ 55 stub ChangeIdleRoutine@28
+ 59 stub MAPIGetDefaultMalloc@0
+ 60 stub CreateIProp@24
+ 61 stub CreateTable@36
+ 62 stub MNLS_lstrlenW@4
+ 63 stub MNLS_lstrcmpW@8
+ 64 stub MNLS_lstrcpyW@8
+ 65 stub MNLS_CompareStringW@24
+ 66 stub MNLS_MultiByteToWideChar@24
+ 67 stub MNLS_WideCharToMultiByte@32
+ 68 stub MNLS_IsBadStringPtrW@8
+ 72 stub FEqualNames@8
+ 73 stub WrapStoreEntryID@24
+ 74 stub IsBadBoundedStringPtr@8
+ 75 stub HrQueryAllRows@24
+ 76 stub PropCopyMore@16
+ 77 stub UlPropSize@4
+ 78 stub FPropContainsProp@12
+ 79 stub FPropCompareProp@12
+ 80 stub LPropCompareProp@8
+ 81 stub HrAddColumns@16
+ 82 stub HrAddColumnsEx@20
+121 stub FtAddFt@16
+122 stub FtAdcFt@20
+123 stub FtSubFt@16
+124 stub FtMulDw@12
+125 stub FtMulDwDw@8
+126 stub FtNegFt@8
+127 stub FtDivFtBogus@20
+128 stub UlAddRef@4
+129 stub UlRelease@4
+130 stub SzFindCh@8
+131 stub SzFindLastCh@8
+132 stub SzFindSz@8
+133 stub UFromSz@4
+135 stub HrGetOneProp@12
+136 stub HrSetOneProp@8
+137 stub FPropExists@8
+138 stub PpropFindProp@12
+139 stub FreePadrlist@4
+140 stub FreeProws@4
+141 stub HrSzFromEntryID@12
+142 stub HrEntryIDFromSz@12
+143 stub HrComposeEID@28
+144 stub HrDecomposeEID@28
+145 stub HrComposeMsgID@24
+146 stub HrDecomposeMsgID@24
+147 stub OpenStreamOnFile@24
+148 stub OpenStreamOnFile
+149 stub OpenTnefStream@28
+150 stub OpenTnefStream
+151 stub OpenTnefStreamEx@32
+152 stub OpenTnefStreamEx
+153 stub GetTnefStreamCodepage@12
+154 stub GetTnefStreamCodepage
+155 stub UlFromSzHex@4
+156 stub UNKOBJ_ScAllocate@12
+157 stub UNKOBJ_ScAllocateMore@16
+158 stub UNKOBJ_Free@8
+159 stub UNKOBJ_FreeRows@8
+160 stub UNKOBJ_ScCOAllocate@12
+161 stub UNKOBJ_ScCOReallocate@12
+162 stub UNKOBJ_COFree@8
+163 stub UNKOBJ_ScSzFromIdsAlloc@20
+164 stub ScCountNotifications@12
+165 stub ScCopyNotifications@16
+166 stub ScRelocNotifications@20
+170 stub ScCountProps@12
+171 stub ScCopyProps@16
+172 stub ScRelocProps@20
+173 stub LpValFindProp@12
+174 stub ScDupPropset@16
+175 stub FBadRglpszA@8
+176 stub FBadRglpszW@8
+177 stub FBadRowSet@4
+178 stub FBadRglpNameID@8
+179 stub FBadPropTag@4
+180 stub FBadRow@4
+181 stub FBadProp@4
+182 stub FBadColumnSet@4
+183 stub RTFSync@12
+184 stub RTFSync
+185 stub WrapCompressedRTFStream@12
+186 stub WrapCompressedRTFStream
+187 stub __ValidateParameters@8
+188 stub __CPPValidateParameters@8
+189 stub FBadSortOrderSet@4
+190 stub FBadEntryList@4
+191 stub FBadRestriction@4
+192 stub ScUNCFromLocalPath@12
+193 stub ScLocalPathFromUNC@12
+194 stub HrIStorageFromStream@16
+195 stub HrValidateIPMSubtree@20
+196 stub OpenIMsgSession@12
+197 stub CloseIMsgSession@4
+198 stub OpenIMsgOnIStg@44
+199 stub SetAttribIMsgOnIStg@16
+200 stub GetAttribIMsgOnIStg@12
+201 stub MapStorageSCode@4
+202 stub ScMAPIXFromCMC
+203 stub ScMAPIXFromSMAPI
+204 stub EncodeID@12
+205 stub FDecodeID@12
+206 stub CchOfEncoding@4
+207 stub CbOfEncoded@4
+208 stub MAPISendDocuments
+209 stdcall MAPILogon(long ptr ptr long long ptr)
+210 stub MAPILogoff
+211 stub MAPISendMail
+212 stub MAPISaveMail
+213 stub MAPIReadMail
+214 stub MAPIFindNext
+215 stub MAPIDeleteMail
+217 stub MAPIAddress
+218 stub MAPIDetails
+219 stub MAPIResolveName
+220 stub BMAPISendMail
+221 stub BMAPISaveMail
+222 stub BMAPIReadMail
+223 stub BMAPIGetReadMail
+224 stub BMAPIFindNext
+225 stub BMAPIAddress
+226 stub BMAPIGetAddress
+227 stub BMAPIDetails
+228 stub BMAPIResolveName
+229 stub cmc_act_on
+230 stub cmc_free
+231 stub cmc_list
+232 stub cmc_logoff
+233 stub cmc_logon
+234 stub cmc_look_up
+235 stub cmc_query_configuration
+236 stub cmc_read
+237 stub cmc_send
+238 stub cmc_send_documents
+239 stub HrDispatchNotifications@4
+241 stub HrValidateParameters@8
+244 stub ScCreateConversationIndex@16
+246 stub HrGetOmiProvidersFlags
+247 stub HrGetOmiProvidersFlags@8
+248 stub HrSetOmiProvidersFlagsInvalid
+249 stub HrSetOmiProvidersFlagsInvalid@4
+250 stub GetOutlookVersion
+251 stub GetOutlookVersion@0
+252 stub FixMAPI
+253 stub FixMAPI@0
+# This entry point is sometimes used to detect if the mapi dll came from Outlook
+#254 stub FGetComponentPath
+#255 stub FGetComponentPath@20

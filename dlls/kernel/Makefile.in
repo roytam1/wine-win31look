@@ -1,0 +1,124 @@
+EXTRADEFS = -D_KERNEL32_ -DETCDIR="\"$(sysconfdir)\""
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = kernel32.dll
+IMPORTS   = ntdll
+ALTNAMES  = krnl386.exe comm.drv stress.dll system.drv toolhelp.dll windebug.dll win87em.dll
+EXTRALIBS = $(LIBUNICODE)
+
+SPEC_SRCS16 = \
+	comm.drv.spec \
+	krnl386.exe.spec \
+	stress.spec \
+	system.drv.spec \
+	toolhelp.spec \
+	win87em.spec \
+	windebug.spec
+
+C_SRCS = \
+	$(TOPOBJDIR)/files/directory.c \
+	$(TOPOBJDIR)/files/dos_fs.c \
+	$(TOPOBJDIR)/files/drive.c \
+	$(TOPOBJDIR)/files/file.c \
+	$(TOPOBJDIR)/files/smb.c \
+	$(TOPOBJDIR)/misc/options.c \
+	$(TOPOBJDIR)/misc/registry.c \
+	actctx.c \
+	atom.c \
+	change.c \
+	comm.c \
+	computername.c \
+	console.c \
+	cpu.c \
+	debugger.c \
+	dosmem.c \
+	editline.c \
+	environ.c \
+	except.c \
+	fiber.c \
+	file.c \
+	file16.c \
+	format_msg.c \
+	global16.c \
+	heap.c \
+	instr.c \
+	kernel_main.c \
+	lcformat.c \
+	local16.c \
+	locale.c \
+	module.c \
+	ne_module.c \
+	ne_segment.c \
+	path.c \
+	powermgnt.c \
+	process.c \
+	profile.c \
+	pthread.c \
+	relay16.c \
+	resource.c \
+	resource16.c \
+	selector.c \
+	snoop16.c \
+	stress.c \
+	string.c \
+	sync.c \
+	syslevel.c \
+	system.c \
+	tape.c \
+	task.c \
+	thread.c \
+	thunk.c \
+	time.c \
+	toolhelp.c \
+	utthunk.c \
+	version.c \
+	virtual.c \
+	volume.c \
+	vxd.c \
+	win87em.c \
+	windebug.c \
+	wowthunk.c
+
+C_SRCS16 = \
+	error16.c \
+	registry16.c
+
+ASM_SRCS = relay16asm.s
+
+RC_SRCS = kernel.rc
+
+RC_SRCS16 = \
+	version16.rc
+
+MC_SRCS = \
+	messages/winerr_enu.mc
+
+EXTRA_OBJS   = $(ASM_SRCS:.s=.o)
+SUBDIRS      = tests
+EXTRASUBDIRS = \
+	$(TOPOBJDIR)/files \
+	$(TOPOBJDIR)/misc \
+	messages \
+	nls
+
+@MAKE_DLL_RULES@
+
+kernel.res: $(MC_SRCS:.mc=.mc.rc)
+
+relay16asm.s: $(WINEBUILD)
+	$(WINEBUILD) $(DEFS) $(DLLFLAGS) -o $@ --relay16
+
+# Special rules for 16-bit resource and spec files
+
+krnl386.exe.spec.c: krnl386.exe.spec version16.res
+	$(WINEBUILD) $(DEFS) $(DLLFLAGS) -o $@ --dll-name kernel --main-module $(MODULE) --res version16.res --dll $(SRCDIR)/krnl386.exe.spec
+
+version16.res: version16.rc
+	$(LDPATH) $(RC16) $(RC16FLAGS) -fo$@ $(SRCDIR)/version16.rc
+
+clean::
+	$(RM) $(ASM_SRCS)
+
+### Dependencies:

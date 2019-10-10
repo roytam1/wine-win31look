@@ -1,0 +1,14 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wineboot.exe
+APPMODE   = -mconsole
+IMPORTS   = advapi32 kernel32
+
+C_SRCS = \
+	wineboot.c
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

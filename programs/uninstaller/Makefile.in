@@ -1,0 +1,18 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = uninstaller.exe
+APPMODE   = -mconsole
+IMPORTS   = user32 gdi32 advapi32 kernel32
+
+C_SRCS = \
+	main.c
+
+RC_SRCS = rsrc.rc
+RC_BINSRC = rsrc.rc
+RC_BINARIES = uninstaller.ico
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

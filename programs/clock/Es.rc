@@ -1,0 +1,49 @@
+/*
+ * Clock (English resources)
+ *
+ * Copyright 1998 Marcel Baur <mbaur@g26.ethz.ch>
+ * Spanish translation by Pablo Saratxaga <srtxg@chanae.alphanet.ch>
+ * Copyright 2002 Sylvain Petreolle <spetreolle@yahoo.fr>
+ * Copyright 2003 José Manuel Ferrer Ortiz
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+MAIN_MENU MENU LANGUAGE LANG_SPANISH, SUBLANG_DEFAULT
+{
+ POPUP "&Propiedades" {
+  MENUITEM "Ana&lógico", IDM_ANALOG
+  MENUITEM "Digi&tal", IDM_DIGITAL
+  MENUITEM SEPARATOR
+  MENUITEM "&Fuente...", IDM_FONT
+  MENUITEM SEPARATOR
+  MENUITEM "Sin barra de &título", IDM_NOTITLE
+  MENUITEM SEPARATOR
+  MENUITEM "&Segundos", IDM_SECONDS
+  MENUITEM "Fe&cha", IDM_DATE
+  MENUITEM SEPARATOR
+  MENUITEM "Siempre &visible", IDM_ONTOP
+ }
+ POPUP "Inf&o" {
+  MENUITEM "&Licencia...", IDM_LICENSE
+  MENUITEM "&SIN &GARANTÍA...", IDM_NOWARRANTY
+  MENUITEM "&Acerca del Reloj...", IDM_ABOUT
+ }
+}
+
+STRINGTABLE DISCARDABLE LANGUAGE LANG_SPANISH, SUBLANG_DEFAULT
+{
+IDS_CLOCK, "Reloj"
+}
