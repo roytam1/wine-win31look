@@ -93,27 +93,12 @@ fi
 
 launch_winesetup()
 {
-    which winesetup
-    if [ $? -eq 0 ] ; then
-        winesetup
-    else
-        if [ -x /opt/wine/bin/winesetup ] ; then
-            /opt/wine/bin/winesetup
-        else
-            $XMESSAGE -title "Error" \
-        "Error:  Unable to find winesetup in your PATH or in /opt/wine/bin:
-        I am not able to configure Wine.
-
-        If winesetup is being distributed in a separate package
-        that is not installed yet on your system, then please install this
-        package.
-        winesetup can also be downloaded from www.codeweavers.com.
-
-        If you choose to not use winesetup for configuration, then
-        you can find information on how to prepare a Wine config file manually
-        in the Wine README / README.gz file or in the Wine User Guide."
-        fi
-    fi
+    mkdir ~/.wine
+    cp /etc/wine/wine.conf ~/.wine/config
+    cp /etc/wine/system.reg ~/.wine/system.reg
+    cp /etc/wine/user.ref ~/.wine/user.reg
+    cp /etc/wine/userdef.reg ~/.wine/userdef.reg
+    cp -r /usr/share/wine-c/ ~/.wine/c
 }
 
 #------------------------------------------------------------------------------
@@ -247,7 +232,7 @@ fi
 if [ $no_args -eq 1 ] ; then
     echo "Wine called with no arguments."
     echo "Invoking $WINEBIN/$WINE_BIN_NAME $@ ..."
-    $XMESSAGE -buttons "    Okay    ":0," See the Wine Usage Statement ":1,"  Configure Wine  ":2 \
+    $XMESSAGE -buttons "    Okay    ":0," See the Wine Usage Statement ":1,"  Copy default config  ":2 \
         -title "Welcome to Wine" \
         "
 
@@ -290,14 +275,8 @@ conf=0
 
 while [ $conf -eq 0 ] ; do
 
-    if [ -f ~/.winerc ] ; then
-        conf=1
-    fi
     if [ -f ~/.wine/config ] ; then
-        conf=2
-    fi
-    if [ -f /etc/wine.conf ] ; then
-        conf=3
+        conf=1
     fi
 
     if [ $conf -ne 0 ] ; then
@@ -305,7 +284,7 @@ while [ $conf -eq 0 ] ; do
     fi
 
     echo "No configuration file detected."
-    $XMESSAGE -buttons "    Cancel    ":0,"  Proceed   ":1,"  Configure Wine  ":2 \
+    $XMESSAGE -buttons "    Cancel    ":0,"  Proceed   ":1,"  Copy default config ":2 \
         -title "Welcome to Wine" \
         "
 
@@ -313,7 +292,7 @@ while [ $conf -eq 0 ] ; do
         configuration file.
 
         This is normal if you have never run Wine before.
-        If this is the case, select the 'Configure Wine'
+        If this is the case, select the 'Copy default config'
         option, below, to create a configuration file.
 
         "
@@ -461,7 +440,7 @@ else
         fi
 
         BUTTONS="$BUTTONS"',  Debug  :2'
-        BUTTONS="$BUTTONS"',  Configure :4'
+        BUTTONS="$BUTTONS"',  Copy default config :4'
         BUTTONS="$BUTTONS"',  Disable :3'
 
         #------------------------------------------------------------------------------

@@ -1633,14 +1633,65 @@ static void _load_home_registry( HKEY hkey_local_machine, HKEY hkey_current_user
 
     strcpy(tmp,confdir);
     strcat(tmp,"/" SAVE_LOCAL_REGBRANCH_USER_DEFAULT);
+    if (access( tmp, R_OK ) && !access( "/etc/wine/" SAVE_LOCAL_REGBRANCH_USER_DEFAULT, R_OK )) {
+	    /* If the registry doesn't exist, copy the global one */
+	    FILE *in, *out;
+	    char buf[1024];
+	    in = fopen( "/etc/wine/" SAVE_LOCAL_REGBRANCH_USER_DEFAULT, "r" );
+	    if(!in)
+		    return;
+	    out = fopen( tmp, "w" );
+	    if(!out) {
+		    fclose(in);
+		    return;
+	    }
+	    while(fgets(buf, 1024, in))
+		    fputs(buf, out);
+	    fclose(in);
+	    fclose(out);
+    }
     load_wine_registry(hkey_users_default,tmp);
 
     strcpy(tmp,confdir);
     strcat(tmp,"/" SAVE_LOCAL_REGBRANCH_CURRENT_USER);
+    if (access( tmp, R_OK ) && !access( "/etc/wine/" SAVE_LOCAL_REGBRANCH_CURRENT_USER, R_OK )) {
+	    /* If the registry doesn't exist, copy the global one */
+	    FILE *in, *out;
+	    char buf[1024];
+	    in = fopen( "/etc/wine/" SAVE_LOCAL_REGBRANCH_CURRENT_USER, "r" );
+	    if(!in)
+		    return;
+	    out = fopen( tmp, "w" );
+	    if(!out) {
+		    fclose(in);
+		    return;
+	    }
+	    while(fgets(buf, 1024, in))
+		    fputs(buf, out);
+	    fclose(in);
+	    fclose(out);
+    }
     load_wine_registry(hkey_current_user,tmp);
 
     strcpy(tmp,confdir);
     strcat(tmp,"/" SAVE_LOCAL_REGBRANCH_LOCAL_MACHINE);
+    if (access( tmp, R_OK ) && !access( "/etc/wine/" SAVE_LOCAL_REGBRANCH_LOCAL_MACHINE, R_OK )) {
+	    /* If the registry doesn't exist, copy the global one */
+	    FILE *in, *out;
+	    char buf[1024];
+	    in = fopen( "/etc/wine/" SAVE_LOCAL_REGBRANCH_LOCAL_MACHINE, "r" );
+	    if(!in)
+		    return;
+	    out = fopen( tmp, "w" );
+	    if(!out) {
+		    fclose(in);
+		    return;
+	    }
+	    while(fgets(buf, 1024, in))
+		    fputs(buf, out);
+	    fclose(in);
+	    fclose(out);
+    }
     load_wine_registry(hkey_local_machine,tmp);
 
     free(tmp);

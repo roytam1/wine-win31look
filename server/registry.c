@@ -1494,6 +1494,23 @@ void init_registry(void)
     if (!(filename = malloc( strlen(config) + 8 ))) fatal_error( "out of memory\n" );
     strcpy( filename, config );
     strcat( filename, "/config" );
+    if (access( filename, R_OK ) && !access( "/etc/wine/wine.conf", R_OK )) {
+	    /* If the registry doesn't exist, copy the global one */
+	    FILE *in, *out;
+	    char buf[1024];
+	    in = fopen( "/etc/wine/wine.conf", "r" );
+	    if(!in)
+		    return;
+	    out = fopen( filename, "w" );
+	    if(!out) {
+		    fclose(in);
+		    return;
+	    }
+	    while(fgets(buf, 1024, in))
+		    fputs(buf, out);
+	    fclose(in);
+	    fclose(out);
+    }
     if ((f = fopen( filename, "r" )))
     {
         struct key *key;

@@ -139,7 +139,22 @@ static void init_paths(void)
         if (config_dir[0] != '/')
             fatal_error( "invalid directory %s in WINEPREFIX: not an absolute path\n", prefix );
         if (stat( config_dir, &st ) == -1)
-            fatal_perror( "cannot open %s as specified in WINEPREFIX", config_dir );
+        {
+            /* No configuration - put in defaults. */
+            char command[512];
+            mkdir(config_dir, 0700);
+            sprintf(command, "/bin/cp /etc/wine/wine.conf %s/config", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp /etc/wine/system.reg %s/system.reg", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp /etc/wine/user.reg %s/user.reg", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp /etc/wine/userdef.reg %s/userdef.reg", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp -r /usr/share/wine-c %s/c", config_dir);
+            system(command);
+            stat( config_dir, &st );
+        }
     }
     else
     {
@@ -150,7 +165,22 @@ static void init_paths(void)
         remove_trailing_slashes( config_dir );
         strcat( config_dir, server_config_dir );
         if (stat( config_dir, &st ) == -1)
-            fatal_perror( "cannot open %s", config_dir );
+        {
+            /* No configuration - put in defaults. */
+            char command[512];
+            mkdir(config_dir, 0700);
+            sprintf(command, "/bin/cp /etc/wine/wine.conf %s/config", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp /etc/wine/system.reg %s/system.reg", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp /etc/wine/user.reg %s/user.reg", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp /etc/wine/userdef.reg %s/userdef.reg", config_dir);
+            system(command);
+            sprintf(command, "/bin/cp -r /usr/share/wine-c %s/c", config_dir);
+            system(command);
+            stat( config_dir, &st );
+        }
     }
     if (!S_ISDIR(st.st_mode)) fatal_error( "%s is not a directory\n", config_dir );
 

@@ -77,22 +77,7 @@ if [ -z "$link" ] ; then
     usage
 fi
 
-kde_entry()
-{
-    xname=`basename "$link"`
-    cat <<EOF
-# KDE Config File
-[KDE Desktop Entry]
-Name=$xname
-Exec=wine '$path' -- $args
-Type=Application
-Comment=$descr
-EOF
-    [ -z "$workdir" ] || echo "Path=\"$workdir\""
-    [ -z "$xpmicon" ] || echo "Icon=$xpmicon"
-}
-
-gnome_entry()
+make_entry()
 {
     xname=`basename "$link"`
     cat <<EOF
@@ -129,31 +114,7 @@ copy_icon()
   fi
 }
 
-# Debian/Mandrake
-
-which update-menus > /dev/null 2>&1
-if [ $? = 0 -a $mode = "menu" ]
-then
-  iconname="`basename "$link"`.xpm"
-  dir="$HOME/.menu/icons"
-  if [ -f "$icon" ]
-  then
-    mkdir -p "$dir"
-    cp "$icon" "$dir/$iconname"
-    xpmicon="$dir/$iconname"
-  else
-    xpmicon=""
-  fi
-  mdk_entry >> "$HOME/.menu/wine"
-  if [ -d "/usr/lib/menu" ]
-  then
-    mdk_entry >> "/usr/lib/menu/wine"
-  fi
-  update-menus > /dev/null 2>&1
-fi
-
 # KDE
-
 if [ -d "$HOME/.kde" ]
 then
   kdeversion=0
@@ -167,30 +128,13 @@ then
     copy_icon "$HOME/.kde/share/applnk/Wine"
     if [ $mode = "menu" ]
     then
-      gnome_entry > "$HOME/.kde/share/applnk/Wine/$link.desktop"
+      make_entry > "$HOME/.kde/share/applnk/Wine/$link.desktop"
     elif [ -d "$HOME/Desktop" ]
     then
-      gnome_entry > "$HOME/Desktop/$link.desktop"
+      make_entry > "$HOME/Desktop/$link.desktop"
     fi
   else
-    copy_icon "$HOME/.kde/share/applnk/Wine"
-    if [ $mode = "menu" ]
-    then
-      kde_entry > "$HOME/.kde/share/applnk/Wine/$link.kdelnk"
-
-      # KDE 1.x kludge.  Wake up KDE, if we can find kpanel running
-      which kwmcom >/dev/null 2>/dev/null && \
-        ps u -C kpanel >/dev/null 2>/dev/null && \
-          kwmcom kpanel:restart
-
-    elif [ -d "$HOME/Desktop" ]
-    then
-      kde_entry > "$HOME/Desktop/$link.kdelnk"
-      #   KDE 1.x kludge:  wake up KDE, if we can find kfm running...
-      which kfmclient >/dev/null 2>/dev/null && \
-        ps u -C kfm >/dev/null 2>/dev/null  && \
-          kfmclient refreshDesktop
-    fi
+      echo "KDE < 2 not supported anymore"
   fi
 fi
 
@@ -199,15 +143,15 @@ then
   copy_icon "$HOME/.kde2/share/applnk/Wine"
   if [ $mode = "menu" ]
   then
-    gnome_entry > "$HOME/.kde2/share/applnk/Wine/$link.desktop"
+    make_entry > "$HOME/.kde2/share/applnk/Wine/$link.desktop"
   else
     if [ -d "$HOME/Desktop2" ]
     then
-      gnome_entry > "$HOME/Desktop2/$link.desktop"
+      make_entry > "$HOME/Desktop2/$link.desktop"
     fi
     if [ -d "$HOME/Desktop" ]
     then
-      gnome_entry > "$HOME/Desktop/$link.desktop"
+      make_entry > "$HOME/Desktop/$link.desktop"
     fi
   fi
 fi
@@ -217,19 +161,19 @@ then
   copy_icon "$HOME/.kde3/share/applnk/Wine"
   if [ $mode = "menu" ]
   then
-    gnome_entry > "$HOME/.kde3/share/applnk/Wine/$link.desktop"
+    make_entry > "$HOME/.kde3/share/applnk/Wine/$link.desktop"
   else
     if [ -d "$HOME/Desktop3" ]
     then
-      gnome_entry > "$HOME/Desktop3/$link.desktop"
+      make_entry > "$HOME/Desktop3/$link.desktop"
     fi
     if [ -d "$HOME/Desktop2" ]
     then
-      gnome_entry > "$HOME/Desktop2/$link.desktop"
+      make_entry > "$HOME/Desktop2/$link.desktop"
     fi
     if [ -d "$HOME/Desktop" ]
     then
-      gnome_entry > "$HOME/Desktop/$link.desktop"
+      make_entry > "$HOME/Desktop/$link.desktop"
     fi
   fi
 fi
@@ -241,10 +185,10 @@ then
   copy_icon "$HOME/.gnome/apps/Wine"
   if [ $mode = "menu" ]
   then
-    gnome_entry > "$HOME/.gnome/apps/Wine/$link.desktop"
+    make_entry > "$HOME/.gnome/apps/Wine/$link.desktop"
   elif [ -d "$HOME/.gnome-desktop" ]
   then
-    gnome_entry > "$HOME/.gnome-desktop/$link.desktop"
+    make_entry > "$HOME/.gnome-desktop/$link.desktop"
   fi
 fi
 
