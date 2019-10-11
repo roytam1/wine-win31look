@@ -524,8 +524,14 @@ HICON WINAPI ExtractAssociatedIconW(HINSTANCE hInst, LPWSTR lpIconPath, LPWORD l
  */
 HICON WINAPI ExtractAssociatedIconExW(HINSTANCE hInst, LPWSTR lpIconPath, LPWORD lpiIconIdx, LPWORD lpiIconId)
 {
+  HICON hIcon;
+
   FIXME("%p %s %p %p): stub\n", hInst, debugstr_w(lpIconPath), lpiIconIdx, lpiIconId);
-  return 0;
+//  return 0;
+
+  hIcon = ExtractAssociatedIconW(hInst, lpIconPath, lpiIconIdx);
+  *lpiIconId = 1; // hackfix
+  return hIcon;
 }
 
 /*************************************************************************
