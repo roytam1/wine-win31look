@@ -298,7 +298,7 @@ static BOOL DIALOG_CreateControls32( HWND hwnd, LPCSTR template, const DLG_TEMPL
         template = (LPCSTR)DIALOG_GetControl32( (WORD *)template, &info,
                                                 dlgTemplate->dialogEx );
         /* Is this it? */
-        if (info.style & WS_BORDER)
+        if (info.style & WS_BORDER && (TWEAK_WineLook > WIN31_LOOK)) /* only do this in !WIN31_LOOK */
         {
             info.style &= ~WS_BORDER;
             info.exStyle |= WS_EX_CLIENTEDGE;
