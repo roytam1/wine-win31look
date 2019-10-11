@@ -333,10 +333,10 @@
 @ stdcall DoEnvironmentSubstW(wstr wstr)
 @ stub DragQueryFileAorW
 @ stdcall DuplicateIcon(long long)
-@ stdcall ExtractAssociatedIconA(long ptr long)
+@ stdcall ExtractAssociatedIconA(long str long)
 @ stdcall ExtractAssociatedIconExA(long str long long)
 @ stdcall ExtractAssociatedIconExW(long wstr long long)
-@ stub ExtractAssociatedIconW
+@ stdcall ExtractAssociatedIconW(long wstr long)
 @ stdcall ExtractIconA(long str long)
 @ stdcall ExtractIconEx(ptr long ptr ptr long)ExtractIconExAW
 @ stdcall ExtractIconExA(str long ptr ptr long)

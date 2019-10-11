@@ -461,6 +461,26 @@ UINT WINAPI ExtractIconExA(LPCSTR lpszFile, INT nIconIndex, HICON * phiconLarge,
  */
 HICON WINAPI ExtractAssociatedIconA(HINSTANCE hInst, LPSTR lpIconPath, LPWORD lpiIcon)
 {	
+  HICON ret;
+  INT len = MultiByteToWideChar( CP_ACP, 0, lpIconPath, -1, NULL, 0 );
+  LPWSTR lpwstrFile = HeapAlloc( GetProcessHeap(), 0, len * sizeof(WCHAR) );
+
+  TRACE("%p %s %p)\n", hInst, lpIconPath, lpiIcon);
+
+  MultiByteToWideChar( CP_ACP, 0, lpIconPath, -1, lpwstrFile, len );
+  ret = ExtractAssociatedIconW(hInst, lpwstrFile, lpiIcon);
+  HeapFree(GetProcessHeap(), 0, lpwstrFile);
+  return ret;
+}
+
+/*************************************************************************
+ *				ExtractAssociatedIconW (SHELL32.@)
+ *
+ * Return icon for given file (either from file itself or from associated
+ * executable) and patch parameters if needed.
+ */
+HICON WINAPI ExtractAssociatedIconW(HINSTANCE hInst, LPWSTR lpIconPath, LPWORD lpiIcon)
+{	
 	HICON hIcon;
 	WORD wDummyIcon = 0;
 	
@@ -469,16 +489,16 @@ HICON WINAPI ExtractAssociatedIconA(HINSTANCE hInst, LPSTR lpIconPath, LPWORD lp
 	if(lpiIcon == NULL)
 	    lpiIcon = &wDummyIcon;
 
-	hIcon = ExtractIconA(hInst, lpIconPath, *lpiIcon);
+	hIcon = ExtractIconW(hInst, lpIconPath, *lpiIcon);
 
 	if( hIcon < (HICON)2 )
 	{ if( hIcon == (HICON)1 ) /* no icons found in given file */
-	  { char  tempPath[0x80];
-	    HINSTANCE uRet = FindExecutableA(lpIconPath,NULL,tempPath);
+	  { WCHAR  tempPath[0x80];
+	    HINSTANCE uRet = FindExecutableW(lpIconPath,NULL,tempPath);
 
 	    if( uRet > (HINSTANCE)32 && tempPath[0] )
-	    { strcpy(lpIconPath,tempPath);
-	      hIcon = ExtractIconA(hInst, lpIconPath, *lpiIcon);
+	    { wcscpy(lpIconPath,tempPath);
+	      hIcon = ExtractIconW(hInst, lpIconPath, *lpiIcon);
 	      if( hIcon > (HICON)2 )
 	        return hIcon;
 	    }
@@ -490,8 +510,8 @@ HICON WINAPI ExtractAssociatedIconA(HINSTANCE hInst, LPSTR lpIconPath, LPWORD lp
 	  else
 	    *lpiIcon = 6;   /* generic icon - found nothing */
 
-	  GetModuleFileNameA(hInst, lpIconPath, 0x80);
-	  hIcon = LoadIconA( hInst, MAKEINTRESOURCEA(*lpiIcon));
+	  GetModuleFileNameW(hInst, lpIconPath, 0x80);
+	  hIcon = LoadIconW( hInst, MAKEINTRESOURCEW(*lpiIcon));
 	}
 	return hIcon;
 }
