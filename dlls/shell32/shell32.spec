@@ -223,8 +223,8 @@
  280 stub SheGetDirExW
  281 stdcall SheGetDirW (long long)
  282 stub SheGetPathOffsetW
- 283 stub SheRemoveQuotesA
- 284 stub SheRemoveQuotesW
+ 283 stdcall SheRemoveQuotesA(str)
+ 284 stdcall SheRemoveQuotesW(wstr)
  285 stub SheSetCurDrive
  286 stub SheShortenPathA
  287 stub SheShortenPathW

@@ -284,3 +284,15 @@ DWORD WINAPI CheckEscapesW(
 	}
 	return size;
 }
+
+LPWSTR WINAPI SheRemoveQuotesW(LPWSTR lpInput)
+{
+	FIXME("SheRemoveQuotesW stub\n");
+	return lpInput;
+}
+
+LPSTR WINAPI SheRemoveQuotesA(LPSTR lpInput)
+{
+	FIXME("SheRemoveQuotesA stub\n");
+	return lpInput;
+}
