@@ -53,6 +53,7 @@
 #include "winuser.h"
 #include "shlobj.h"
 #include "undocshell.h"
+#include "user.h"
 #include "shresdef.h"
 #include "wine/debug.h"
 
@@ -279,6 +280,7 @@ static BOOL ShellView_CreateList (IShellViewImpl * This)
 
 	dwStyle = WS_TABSTOP | WS_VISIBLE | WS_CHILDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN |
 		  LVS_SHAREIMAGELISTS | LVS_EDITLABELS | LVS_ALIGNLEFT | LVS_AUTOARRANGE;
+	if(USER_GetWineLook() == WIN31_LOOK) dwStyle |= WS_BORDER;
         dwExStyle = WS_EX_CLIENTEDGE;
 
 	switch (This->FolderSettings.ViewMode)

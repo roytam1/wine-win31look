@@ -146,6 +146,7 @@ typedef enum
 } WINE_LOOK;
 
 extern WINE_LOOK TWEAK_WineLook;
+extern WINE_LOOK USER_GetWineLook(void);
 
 /* gray brush cache */
 extern HBRUSH CACHE_GetPattern55AABrush(void);

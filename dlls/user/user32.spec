@@ -742,3 +742,4 @@
 @ cdecl WIN_SetStyle(long long)
 @ cdecl WIN_SuspendWndsLock()
 @ cdecl WIN_UnlinkWindow(long)
+@ cdecl USER_GetWineLook()

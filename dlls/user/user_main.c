@@ -54,6 +54,11 @@ extern void WDML_NotifyThreadDetach(void);
 
 #define GET_USER_FUNC(name) USER_Driver.p##name = (void*)GetProcAddress( graphics_driver, #name )
 
+WINE_LOOK USER_GetWineLook(void)
+{
+	return TWEAK_WineLook;
+}
+
 /* load the graphics driver */
 static BOOL load_driver(void)
 {
